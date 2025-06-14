@@ -1,0 +1,39 @@
+// src/material-theme.scss
+@use '@angular/material' as mat;
+
+// Define palettes (using modern palette names)
+$primary: mat.define-palette(mat.$blue-palette); // Replaced light-blue
+$accent: mat.define-palette(mat.$teal-palette);  // Replaced cyan
+$warn: mat.define-palette(mat.$red-palette);
+
+// Define light theme
+$light-theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
+
+// Define dark theme (optional)
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: mat.define-palette(mat.$blue-grey-palette),
+    accent: mat.define-palette(mat.$teal-palette),
+    warn: mat.define-palette(mat.$deep-orange-palette),
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
+
+// Apply light theme globally
+@include mat.all-component-themes($light-theme);
+
+// Dark theme class (optional)
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+  background-color: #121212;
+  color: white;
+}

@@ -1,0 +1,15 @@
+.main-container {
+    display: flex;
+    min-height: 100vh;
+  
+    app-sidebar {
+      width: 240px;
+      background-color: #f3f3f3;
+    }
+  
+    .content-area {
+      flex: 1;
+      padding: 1rem;
+    }
+  }
+  

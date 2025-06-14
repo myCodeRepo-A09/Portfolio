@@ -1,0 +1,23 @@
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: 'Segoe UI', sans-serif;
+    }
+  
+    .search-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+  
+      mat-form-field {
+        width: 50%;
+        min-width: 300px;
+      }
+    }
+  }
+  
