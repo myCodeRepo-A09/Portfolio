@@ -7,8 +7,13 @@ import { NewsComponent } from './features/news/news.component';
 import { LearnWithMeComponent } from './features/learn-with-me/learn-with-me.component';
 
 export const routes: Routes = [
-  {
+
+    {
     path: '',
+    loadComponent:()=>import('../app/features/home/home.component').then(m=>m.HomeComponent)
+  },
+  {
+    path: 'home',
     component: HomeComponent
   },
   {

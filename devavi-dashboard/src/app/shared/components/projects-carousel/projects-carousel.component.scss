@@ -1,0 +1,224 @@
+@use '../../../../assets/styles/variables.scss' as vars;
+
+.carousel-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+  height: 500px;
+  position: relative;
+
+  .carousel-item {
+    min-width: 100%;
+    display: none;
+    position: relative;
+
+    &.active {
+      display: flex;
+    }
+  }
+}
+
+.project-image-container {
+  flex: 1;
+  position: relative;
+
+  .project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(vars.$primary-dark, 0.8) 0%, transparent 100%);
+  }
+}
+
+.project-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  padding: 2rem;
+  color: white;
+  z-index: 2;
+
+  .project-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+
+    .tech-tag {
+      background: rgba(white, 0.2);
+      backdrop-filter: blur(5px);
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+    }
+  }
+
+  .project-description {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+
+    .demo-button, .code-button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .demo-button {
+      background: vars.$accent;
+      color: white;
+
+      &:hover {
+        background: darken(vars.$accent, 10%);
+        transform: translateY(-2px);
+      }
+    }
+
+    .code-button {
+      background: rgba(white, 0.2);
+      backdrop-filter: blur(5px);
+      color: white;
+
+      &:hover {
+        background: rgba(white, 0.3);
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: rgba(white, 0.2);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(white, 0.3);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+
+  &.prev {
+    left: 2rem;
+  }
+
+  &.next {
+    right: 2rem;
+  }
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+
+  button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(white, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+
+    &.active {
+      background: vars.$accent;
+      transform: scale(1.3);
+    }
+
+    &:not(.active):hover {
+      background: rgba(white, 0.8);
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 992px) {
+  .project-info {
+    width: 70%;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel {
+    height: 600px;
+  }
+
+  .project-info {
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(vars.$primary-dark, 0.9) 0%, transparent 100%);
+
+    .project-title {
+      font-size: 1.5rem;
+    }
+  }
+
+  .project-image-container .project-overlay {
+    background: linear-gradient(to top, rgba(vars.$primary-dark, 0.8) 0%, transparent 50%);
+  }
+
+  .carousel-control {
+    width: 40px;
+    height: 40px;
+
+    &.prev {
+      left: 1rem;
+    }
+
+    &.next {
+      right: 1rem;
+    }
+  }
+}

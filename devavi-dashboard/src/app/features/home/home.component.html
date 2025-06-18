@@ -1,1 +1,268 @@
-<p>home works!</p>
+<!-- home.component.html -->
+<main class="home-container">
+
+    <!-- About Section -->
+    <section id="about" class="content-section about-section">
+        <div class="section-header">
+            <!-- Optional decorative corners -->
+            <div class="decorative-corner decorative-corner-tl"></div>
+            <div class="decorative-corner decorative-corner-tr"></div>
+            <h2 class="gradient-text">👨‍💻
+
+                <span class="header-icon"></span> <!-- or use an icon font -->
+                About DevAvi
+            </h2>
+
+            <div class="section-divider"></div>
+        </div>
+
+
+        <div class="about-content">
+            <div class="profile-container floating-element">
+
+                <img src="assets/images/profile.jpg" alt="Avi's Profile" class="profile-image">
+                <!-- <div class="profile-decorator"></div> -->
+                <h3 class="fancy-name">Avinash Andhale</h3>
+                <div class="position-tag">
+                    <!-- <span>Software Specialist</span> -->
+                    <span class="employer">
+                        <img src="assets/icons/Dassault.svg" alt="Dassault Logo" />
+
+                    </span>
+                </div>
+
+                <div class="position-tag">
+                    <!-- <span>Full Stack Web Developer</span> -->
+                    <span class="employer">
+                        <img src="assets/icons/tata.png" alt="TCS Logo" />
+
+                    </span>
+                </div>
+
+
+                <!-- With highlight animation -->
+                <!-- <div class="position-tag highlight">
+                    <span>Open to Work</span>
+                </div> -->
+
+                <div class="experience-chip">
+                    <span class="chip-icon">⭐</span>
+                    Turning Ideas Into Web Reality.
+                </div>
+
+                <p class="bio" appTypewriter
+                    [text]="'Results-driven Full Stack Web Developer with 4 years of experience specializing in JavaScript, Angular, Node.js, and MySQL. Expertise in developing scalable web applications, enhancing user experiences, and ensuring robust code quality with testing frameworks like Cafet ODT, Jasmine, and Karma. Proficient in Agile methodology, microservices architecture, and cloud deployment.'"
+                    [speed]="30" [delay]="1000">
+                </p>
+
+            </div>
+
+            <div class="about-info">
+
+
+                <div class="skills-section">
+                    <h4>Technical Skills</h4>
+                    <app-skills-chart [skills]="[
+    {name: 'Javascript', level: 80},
+     {name: 'TypeScript', level: 70},
+    {name: 'Angular', level: 75},
+    {name: 'Node.js', level: 75},
+    {name: 'MySQL', level: 60},
+    {name: 'Git/Docker', level: 60},
+     {name: 'Jasmine/Karma', level: 60}
+  ]"></app-skills-chart>
+                </div>
+
+
+                <div class="action-buttons">
+                    <!-- Resume -->
+                    <a href="/assets/resume.pdf" class="resume-button" download title="Resume">
+                        <img src="assets/icons/PDF_file_icon.svg" alt="Resume" />
+                    </a>
+
+                    <!-- Phone -->
+                    <a href="tel:+918552980643" class="contact-button" title="Phone">
+                        <img src="assets/icons/phone.png" alt="Phone" />
+                    </a>
+
+                    <!-- Email -->
+                    <a href="mailto:aaaviandhale@gmail.com" class="contact-button" title="Email">
+                        <img src="assets/icons/Mail.svg" alt="Email" />
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/in/avinash-andhale-22385193/" class="contact-button"
+                        target="_blank" title="LinkedIn">
+                        <img src="assets/icons/LinkedIn.png" alt="LinkedIn" />
+                    </a>
+                    <a href="https://github.com/myCodeRepo-A09" class="contact-button" target="_blank" title="GitHub">
+                        <img src="assets/icons/GitHub.png" alt="LinkedIn" />
+                    </a>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Blogs Section -->
+    <section id="blogs" class="content-section blogs-section">
+        <!-- <div class="section-header">
+            <h2>📝 Latest Blogs</h2>
+            <div class="section-divider"></div>
+        </div> -->
+        <div class="section-header">
+            <!-- Optional decorative corners -->
+            <div class="decorative-corner decorative-corner-tl"></div>
+            <div class="decorative-corner decorative-corner-tr"></div>
+            <h2 class="gradient-text">
+
+                <span class="header-icon"></span> <!-- or use an icon font -->
+                📝 Latest Blogs
+            </h2>
+
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="cards-container">
+            @for (blog of blogs; track blog.id) {
+            <div class="content-card" [@fadeInUp]>
+                <div class="card-image">
+                    <img [src]="blog.image" [alt]="blog.title">
+                    <div class="card-overlay"></div>
+                    <span class="read-time">{{ blog.readTime }} min read</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-tags">
+                        @for (tag of blog.tags; track tag) {
+                        <span class="tag">{{ tag }}</span>
+                        }
+                    </div>
+                    <h3>{{ blog.title }}</h3>
+                    <p class="excerpt">{{ blog.excerpt }}</p>
+                    <button class="card-button">
+                        Read Article
+                        <svg><!-- Arrow icon --></svg>
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+
+        <div class="section-footer">
+            <button class="view-all-button">
+                View All Blogs
+            </button>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="news" class="content-section news-section">
+        <div class="section-header">
+            <h2>📰 Tech News</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="news-container">
+            @for (item of news; track item.id) {
+            <div class="news-card" [@fadeInUp]>
+                <div class="news-date">
+                    <span class="day">{{ item.date | date:'dd' }}</span>
+                    <span class="month">{{ item.date | date:'MMM' }}</span>
+                </div>
+                <div class="news-content">
+                    <h3>{{ item.title }}</h3>
+                    <p class="news-excerpt">{{ item.excerpt }}</p>
+                    <a [href]="item.sourceUrl" target="_blank" class="read-more-link">
+                        Read on {{ item.source }}
+                        <svg><!-- External link icon --></svg>
+                    </a>
+                </div>
+            </div>
+            }
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="content-section projects-section">
+        <div class="section-header">
+            <h2>🚀 Featured Projects</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="projects-grid">
+            @for (project of projects; track project.id) {
+            <div class="project-card" [@fadeInUp]>
+                <div class="project-header">
+                    <img [src]="project.logo" [alt]="project.name + ' logo'" class="project-logo">
+                    <div class="project-meta">
+                        <h3>{{ project.name }}</h3>
+                        <div class="project-tags">
+                            @for (tech of project.technologies; track tech) {
+                            <span class="tech-tag">{{ tech }}</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <p class="project-description">{{ project.description }}</p>
+                <div class="project-links">
+                    <a [href]="project.demoUrl" target="_blank" class="demo-button">
+                        Live Demo
+                    </a>
+                    <a [href]="project.codeUrl" target="_blank" class="code-button">
+                        View Code
+                    </a>
+                </div>
+            </div>
+            }
+        </div>
+        <div class="section-footer">
+            <button class="view-all-button">
+                View All Projects
+            </button>
+        </div>
+    </section>
+
+    <!-- Learn With Me Section -->
+    <section id="learn" class="content-section learn-section">
+        <div class="section-header">
+            <h2>🎓 Learn With Me</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="learn-cards">
+            <div class="learning-path-card" [@fadeInUp]>
+                <div class="path-icon">
+                    <svg><!-- Book icon --></svg>
+                </div>
+                <h3>Tutorials</h3>
+                <p>Step-by-step guides on modern web development</p>
+                <button class="path-button">
+                    Start Learning
+                </button>
+            </div>
+
+            <div class="learning-path-card" [@fadeInUp]>
+                <div class="path-icon">
+                    <svg><!-- Video icon --></svg>
+                </div>
+                <h3>Video Courses</h3>
+                <p>In-depth video courses on Angular and Node.js</p>
+                <button class="path-button">
+                    Browse Courses
+                </button>
+            </div>
+
+            <div class="learning-path-card" [@fadeInUp]>
+                <div class="path-icon">
+                    <svg><!-- Code icon --></svg>
+                </div>
+                <h3>Code Challenges</h3>
+                <p>Weekly coding challenges to sharpen your skills</p>
+                <button class="path-button">
+                    Join Challenges
+                </button>
+            </div>
+        </div>
+    </section>
+</main>

@@ -1,15 +1,40 @@
-<mat-toolbar color="primary" class="toolbar">
-    <span class="logo">DevAvi.com</span>
+<header class="header" [class.scrolled]="isScrolled">
+    <div class="container">
+        <!-- Logo -->
+        <a routerLink="/" class="logo" (click)="closeMenu()">
+            <span class="logo-dev">Dev</span>
+            <span class="logo-avi">Avi</span>
+            <span class="logo-com">.com</span>
+        </a>
 
-    <div class="search-container">
-        <mat-form-field appearance="outline">
-            <mat-label>Search</mat-label>
-            <input matInput [(ngModel)]="searchQuery" placeholder="Search..." />
-            <button mat-icon-button matSuffix (click)="onSearch()">
-                <mat-icon>search</mat-icon>
-            </button>
-        </mat-form-field>
+        <!-- Global Search Bar -->
+        <div class="search-container">
+            <app-search></app-search>
+        </div>
+
+        <!-- Collapsible Menu Button -->
+        <button class="menu-toggle" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen"
+            aria-label="Toggle navigation">
+            <span class="hamburger" [class.active]="isMenuOpen"></span>
+        </button>
+
+        <!-- Navigation Menu -->
+        <nav class="main-nav" [class.active]="isMenuOpen">
+            <ul class="nav-list">
+                <li class="nav-item" *ngFor="let item of menuItems">
+                    <a [routerLink]="item.path" class="nav-link" (click)="closeMenu()">
+                        {{ item.label }}
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <app-theme-toggle></app-theme-toggle>
+            <!-- <button class="cta-button" magneticButton>
+                Hire Me
+                <svg></svg>
+            </button> -->
+        </div>
     </div>
-
-    <app-theme-toggle></app-theme-toggle>
-</mat-toolbar>
+</header>

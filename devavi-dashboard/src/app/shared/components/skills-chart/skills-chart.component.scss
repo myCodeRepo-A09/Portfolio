@@ -1,0 +1,128 @@
+
+@use '../../../../assets/styles/variables.scss' as vars;
+
+
+.skills-chart {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--card-bg, white);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+
+  .dark-theme & {
+    background: var(--card-bg-dark, #1e1e1e);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.chart-container {
+  width: 100%;
+  overflow: visible;
+  margin-bottom: 1rem;
+}
+
+.skills-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    background: rgba(vars.$primary-light, 0.05);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: rgba(vars.$accent, 0.1);
+    }
+  }
+
+  .legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  .legend-label {
+    flex: 1;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+  }
+
+  .legend-value {
+    font-weight: 600;
+    color: vars.$accent;
+    font-size: 0.9rem;
+  }
+}
+
+// D3 chart styles
+::ng-deep {
+  .bar {
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .axis {
+    text {
+      fill: var(--text-secondary);
+      font-size: 0.75rem;
+    }
+
+    path, line {
+      stroke: var(--text-secondary);
+      opacity: 0.2;
+    }
+  }
+
+  .bar-label {
+    fill: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .tooltip {
+    rect {
+      fill: var(--tooltip-bg, #fff);
+    }
+
+    text {
+      fill: var(--tooltip-text, #333);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .skills-chart {
+    padding: 1rem;
+  }
+
+  .skills-legend {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-legend {
+    grid-template-columns: 1fr 1fr;
+  }
+}

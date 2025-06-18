@@ -1,3 +1,17 @@
-<button mat-icon-button (click)="toggleTheme()">
-    <mat-icon>{{ isDark ? 'dark_mode' : 'light_mode' }}</mat-icon>
-</button>
+<!-- theme-toggle.component.html -->
+<div class="theme-switcher">
+    <button class="theme-button" (click)="toggleTheme()" aria-label="Change theme">
+        <span class="theme-icon" [class]="themeService.currentTheme()">
+            {{ getThemeIcon() }}
+        </span>
+    </button>
+
+    <div class="theme-dropdown" [class.open]="isOpen">
+        @for (theme of themeService.availableThemes; track theme) {
+        <button class="theme-option" [class.active]="theme === themeService.currentTheme()" (click)="setTheme(theme)">
+            <span class="theme-badge" [class]="theme"></span>
+            {{ theme | titlecase }}
+        </button>
+        }
+    </div>
+</div>

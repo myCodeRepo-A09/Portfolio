@@ -1,0 +1,114 @@
+/* theme-toggle.component.scss */
+@use '../../../assets/styles/variables.scss' as vars;
+
+.theme-switcher {
+  position: relative;
+  z-index: 100;
+
+  .theme-button {
+    background: rgba(vars.$text-light, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      padding: 2px;
+      background: linear-gradient(45deg, vars.$accent, vars.$accent-light);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+      background: rgba(vars.$text-light, 0.2);
+      
+      &::before {
+        opacity: 1;
+      }
+    }
+
+    .theme-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+
+      &.light { color: #ffc107; }
+      &.dark { color: #9c27b0; }
+      &.professional { color: #2196f3; }
+      &.creative { color: #4caf50; }
+      &.terminal { color: #00bcd4; }
+    }
+  }
+
+  .theme-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    background: rgba(vars.$bg-dark, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 0.5rem;
+    width: 160px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    overflow: hidden;
+    height: 0;
+    opacity: 0;
+    transform-origin: top right;
+
+    &.open {
+      height: auto;
+      opacity: 1;
+    }
+
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      background: transparent;
+      border: none;
+      color: vars.$text-light;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(vars.$accent, 0.1);
+      }
+
+      &.active {
+        background: rgba(vars.$accent, 0.2);
+      }
+
+      .theme-badge {
+        display: block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid rgba(vars.$text-light, 0.3);
+
+        &.light { background: #ffc107; }
+        &.dark { background: #9c27b0; }
+        &.professional { background: #2196f3; }
+        &.creative { background: #4caf50; }
+        &.terminal { background: #00bcd4; }
+      }
+    }
+  }
+}

@@ -1,1 +1,33 @@
-<p>sidebar works!</p>
+<aside class="sidebar" [class.dark-theme]="isDarkTheme">
+    <!-- <div class="sidebar-header">
+        <img src="assets/logo.svg" alt="DevAvi" class="logo" />
+        <h1>DevAvi</h1>
+    </div> -->
+    <!-- <button mat-icon-button (click)="toggleCollapse()" class="collapse-btn">
+        <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+    </button> -->
+    <h3 *ngIf="!isCollapsed" class="sidebar-title">Menu</h3>
+    <mat-nav-list class="sidebar-nav">
+
+        <a mat-list-item routerLink="/about" routerLinkActive="active">
+            <mat-icon matListItemIcon>person</mat-icon>
+            <span matListItemTitle *ngIf="!isCollapsed">About Me</span>
+        </a>
+        <a mat-list-item routerLink="/blogs" routerLinkActive="active">
+            <mat-icon matListItemIcon>article</mat-icon>
+            <span matListItemTitle *ngIf="!isCollapsed">Blogs</span>
+        </a>
+        <a mat-list-item routerLink="/projects" routerLinkActive="active">
+            <mat-icon matListItemIcon>code</mat-icon>
+            <span matListItemTitle *ngIf="!isCollapsed">Projects</span>
+        </a>
+        <a mat-list-item routerLink="/learn" routerLinkActive="active">
+            <mat-icon matListItemIcon>school</mat-icon>
+            <span matListItemTitle *ngIf="!isCollapsed">Learn With Me</span>
+        </a>
+        <a mat-list-item routerLink="/news" routerLinkActive="active">
+            <mat-icon matListItemIcon>newspaper</mat-icon>
+            <span matListItemTitle *ngIf="!isCollapsed">News</span>
+        </a>
+    </mat-nav-list>
+</aside>

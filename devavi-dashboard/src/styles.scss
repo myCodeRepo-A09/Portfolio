@@ -1,2 +1,173 @@
-// src/styles.scss
-@use './material-theme' as theme;
+:root {
+  --primary-color: #3f51b5;
+  --accent-color: #ff4081;
+  --warn-color: #e53935;
+
+  --background-color: #f3f4f6;
+  --surface-color: #ffffffcc; // translucent white
+  --text-color: #1f2937;
+  --border-color: rgba(0, 0, 0, 0.05);
+  --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --blur: 12px;
+  --transition: all 0.3s ease-in-out;
+}
+
+.dark-theme {
+  --primary-color: #8ab4f8;
+  --accent-color: #ffab40;
+  --warn-color: #ff6e40;
+
+  --background-color: #121212;
+  --surface-color: #1e1e1ecc;
+  --text-color: #e0e0e0;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --blur: 10px;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+  transition: var(--transition);
+}
+
+// Cards
+.mat-mdc-card {
+  background: var(--surface-color);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(var(--blur));
+  border-radius: 16px;
+  transition: var(--transition);
+  padding: 1.5rem;
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Buttons
+.mat-mdc-button, .mat-mdc-raised-button {
+  font-weight: 600;
+  border-radius: 10px;
+  transition: var(--transition);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+
+  &.mat-primary {
+    background: linear-gradient(135deg, var(--primary-color), #5c6bc0);
+    color: white;
+  }
+
+  &.mat-accent {
+    background: linear-gradient(135deg, var(--accent-color), #f06292);
+    color: white;
+  }
+
+  &.mat-warn {
+    background: linear-gradient(135deg, var(--warn-color), #ef5350);
+    color: white;
+  }
+
+  &:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+  }
+}
+
+// Form fields
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: var(--surface-color);
+  --mdc-filled-text-field-label-text-color: var(--text-color);
+  --mdc-filled-text-field-input-text-color: var(--text-color);
+  transition: var(--transition);
+}
+
+// Dialogs & Menus
+.mat-mdc-dialog-container,
+.mat-mdc-menu-panel {
+  background: var(--surface-color);
+  backdrop-filter: blur(var(--blur));
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+}
+
+// Scrollbar customization
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+/* styles/themes.scss */
+:root, .light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --accent-primary: #4361ee;
+  --accent-secondary: #3a0ca3;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.dark {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --accent-primary: #7209b7;
+  --accent-secondary: #4361ee;
+  --card-bg: #1e1e1e;
+  --card-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.professional {
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #e6e9f0;
+  --text-primary: #2d3748;
+  --text-secondary: #4a5568;
+  --accent-primary: #2b6cb0;
+  --accent-secondary: #2c5282;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.creative {
+  --bg-primary: #fff5f5;
+  --bg-secondary: #ffebee;
+  --text-primary: #2d3436;
+  --text-secondary: #636e72;
+  --accent-primary: #e84393;
+  --accent-secondary: #fd79a8;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 20px rgba(232, 67, 147, 0.1);
+}
+
+.terminal {
+  --bg-primary: #011627;
+  --bg-secondary: #011221;
+  --text-primary: #d6deeb;
+  --text-secondary: #82aaff;
+  --accent-primary: #7fdbca;
+  --accent-secondary: #21c7a8;
+  --card-bg: #011221;
+  --card-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.5s ease, color 0.3s ease;
+}
