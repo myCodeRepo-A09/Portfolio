@@ -1,0 +1,108 @@
+services:
+  ### === USER SERVICE ===
+  user-service:
+    container_name: user-service
+    build: ./services/user-service
+    restart: unless-stopped
+    env_file:
+      - ./services/user-service/.env.dev
+    ports:
+      - "3001:3000"
+    depends_on:
+      - mongodb
+      - redis
+      - kafka
+    networks:
+      - backend
+
+
+ # 🧾 Dashboard Service - Replicas (already added)
+  dashboard-service-1:
+    build: ./services/dashboard-service
+    container_name: dashboard-service-1
+    env_file:
+      - ./services/dashboard-service/.env.dev
+    ports:
+      - "3002:3000"
+    depends_on:
+      - mongodb
+    networks:
+      - backend
+
+  dashboard-service-2:
+    build: ./services/dashboard-service
+    container_name: dashboard-service-2
+    env_file:
+      - ./services/dashboard-service/.env.dev
+    ports:
+      - "3003:3000"
+    depends_on:
+      - mongodb
+    networks:
+      - backend
+  ### === REDIS ===
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+  ### === MONGODB ===
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - backend
+
+  ### === KAFKA SETUP ===
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - backend
+
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    networks:
+      - backend
+
+  ### === NGINX ===
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - user-service
+    networks:
+      - backend
+
+volumes:
+  mongo_data:
+
+networks:
+  backend:
+    driver: bridge
