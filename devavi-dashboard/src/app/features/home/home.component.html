@@ -125,12 +125,12 @@
         </div>
 
         <div class="cards-container">
-            @for (blog of blogs; track blog.id) {
+            @for (blog of this.summary.blogs; track blog._id) {
             <div class="content-card" [@fadeInUp]>
                 <div class="card-image">
-                    <img [src]="blog.image" [alt]="blog.title">
+                    <img [src]="url+blog.images[0]" [alt]="blog.title">
                     <div class="card-overlay"></div>
-                    <span class="read-time">{{ blog.readTime }} min read</span>
+                    <span class="read-time">{{ blog.readTime }}</span>
                 </div>
                 <div class="card-content">
                     <div class="card-tags">
@@ -140,7 +140,7 @@
                     </div>
                     <h3>{{ blog.title }}</h3>
                     <p class="excerpt">{{ blog.excerpt }}</p>
-                    <button class="card-button">
+                    <button [routerLink]="['/blogs', blog._id]" class=" card-button">
                         Read Article
                         <svg><!-- Arrow icon --></svg>
                     </button>
@@ -164,17 +164,17 @@
         </div>
 
         <div class="news-container">
-            @for (item of news; track item.id) {
+            @for (item of this.summary.news; track item._id) {
             <div class="news-card" [@fadeInUp]>
                 <div class="news-date">
-                    <span class="day">{{ item.date | date:'dd' }}</span>
-                    <span class="month">{{ item.date | date:'MMM' }}</span>
+                    <span class="day">{{ item.newsdatetime | date:'dd' }}</span>
+                    <span class="month">{{ item.newsdatetime | date:'MMM' }}</span>
                 </div>
                 <div class="news-content">
                     <h3>{{ item.title }}</h3>
-                    <p class="news-excerpt">{{ item.excerpt }}</p>
-                    <a [href]="item.sourceUrl" target="_blank" class="read-more-link">
-                        Read on {{ item.source }}
+                    <p class="news-excerpt">{{ item.summary }}</p>
+                    <a [href]="item.redirectLink" target="_blank" class="read-more-link">
+                        Read on {{ item.redirectLink }}
                         <svg><!-- External link icon --></svg>
                     </a>
                 </div>
@@ -191,25 +191,25 @@
         </div>
 
         <div class="projects-grid">
-            @for (project of projects; track project.id) {
+            @for (project of this.summary.projects; track project._id) {
             <div class="project-card" [@fadeInUp]>
                 <div class="project-header">
-                    <img [src]="project.logo" [alt]="project.name + ' logo'" class="project-logo">
+                    <img [src]="project.imagesPath[0]" [alt]="project.title + ' logo'" class="project-logo">
                     <div class="project-meta">
-                        <h3>{{ project.name }}</h3>
+                        <h3>{{ project.title }}</h3>
                         <div class="project-tags">
-                            @for (tech of project.technologies; track tech) {
+                            @for (tech of project.tags; track tech) {
                             <span class="tech-tag">{{ tech }}</span>
                             }
                         </div>
                     </div>
                 </div>
-                <p class="project-description">{{ project.description }}</p>
+                <p class="project-description">{{ project.content }}</p>
                 <div class="project-links">
-                    <a [href]="project.demoUrl" target="_blank" class="demo-button">
+                    <a [href]="project.demoVideoPath" target="_blank" class="demo-button">
                         Live Demo
                     </a>
-                    <a [href]="project.codeUrl" target="_blank" class="code-button">
+                    <a [href]="project.githubLink" target="_blank" class="code-button">
                         View Code
                     </a>
                 </div>
@@ -265,4 +265,5 @@
             </div>
         </div>
     </section>
+    <app-floating-chat></app-floating-chat>
 </main>

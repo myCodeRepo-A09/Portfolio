@@ -1,0 +1,24 @@
+<button class="floating-chat-btn" (click)="toggleChat()">Chat 💬</button>
+
+<div *ngIf="chatOpen" class="chat-popup">
+    <div class="friends-list">
+        <div *ngFor="let friend of friends" (click)="selectFriend(friend)">
+            {{ friend.name }}
+        </div>
+    </div>
+
+    <div class="chat-window">
+        <div class="messages">
+            <div *ngFor="let msg of messages">
+                <ng-container *ngIf="msg.type === 'text'">{{ msg.senderId }}: {{ msg.message }}</ng-container>
+                <ng-container *ngIf="msg.type === 'attachment'">
+                    <a [href]="msg.message" target="_blank">{{ msg.senderId }}: Attachment</a>
+                </ng-container>
+            </div>
+        </div>
+
+        <input [(ngModel)]="newMessage" (keydown.enter)="sendMessage()" placeholder="Type a message..." />
+        <input type="file" (change)="onFileSelected($event)" />
+        <button (click)="sendAttachment()" *ngIf="selectedFile">Send Attachment</button>
+    </div>
+</div>

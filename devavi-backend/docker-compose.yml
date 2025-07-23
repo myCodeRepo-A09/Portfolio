@@ -7,7 +7,7 @@ services:
     env_file:
       - ./services/user-service/.env.dev
     ports:
-      - "3001:3000"
+      - "3002:3000"
     depends_on:
       - mongodb
       - redis
@@ -23,7 +23,7 @@ services:
     env_file:
       - ./services/dashboard-service/.env.dev
     ports:
-      - "3002:3000"
+      - "3001:3000"
     depends_on:
       - mongodb
     networks:

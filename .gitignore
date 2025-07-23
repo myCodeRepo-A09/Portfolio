@@ -10,6 +10,9 @@
 /node_modules
 /devavi-backend/services/dashboard-service/node_modules
 /devavi-backend/services/user-service/node_modules
+/devavi-backend/services/chat-service/node_modules
+/devavi-backend/services/blog-service/node_modules
+/devavi-backend/shared/node_modules
 npm-debug.log
 yarn-error.log
 

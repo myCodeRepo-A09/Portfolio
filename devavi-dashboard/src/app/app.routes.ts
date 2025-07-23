@@ -5,40 +5,41 @@ import { BlogsComponent } from './features/blogs/blogs.component';
 import { ProjectsComponent } from './features/projects/projects.component';
 import { NewsComponent } from './features/news/news.component';
 import { LearnWithMeComponent } from './features/learn-with-me/learn-with-me.component';
+import { ViewBlogComponent } from './features/blogs/view-blog/view-blog.component';
 
 export const routes: Routes = [
-
-    {
+  {
     path: '',
-    loadComponent:()=>import('../app/features/home/home.component').then(m=>m.HomeComponent)
+    loadComponent: () =>
+      import('../app/features/home/home.component').then(
+        (m) => m.HomeComponent
+      ),
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
   },
   {
     path: 'about',
-    component:AboutComponent
+    component: AboutComponent,
   },
-  {
-    path: 'blogs',
-    component: BlogsComponent
-  },
+  { path: 'blogs/:id', component: ViewBlogComponent },
   {
     path: 'projects',
-    component: ProjectsComponent
+    component: ProjectsComponent,
   },
   {
     path: 'news',
-    component:NewsComponent,
+    component: NewsComponent,
   },
   {
     path: 'learn',
     component: LearnWithMeComponent,
   },
+
   {
     path: '**',
     redirectTo: '',
-    pathMatch:'full'
+    pathMatch: 'full',
   },
 ];

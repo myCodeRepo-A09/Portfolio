@@ -1,11 +1,18 @@
-// src/app/models/blog.model.ts
 export interface Blog {
-  id: string;
+  _id: string;
   title: string;
-  excerpt: string;
+  readTime: string;
+  images: string[];
+  videoPaths: string[];
   content: string;
-  image: string;
-  date: Date;
+  excerpt: string;
+  slug: string;
   tags: string[];
-  readTime: number;
+  status: string;
+  published_at: string;
+  updatedAt: string;
+  comments: string[];
+  likes: { user: string[]; count: number };
+  views: number;
+  __v: string;
 }

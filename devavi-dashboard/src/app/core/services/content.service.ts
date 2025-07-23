@@ -1,48 +1,25 @@
 // content.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-
+import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
+import { DashboardSummary } from '../../shared/interfaces/dashboard.summary.model';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContentService {
+  private dashboardSummary = new BehaviorSubject<DashboardSummary | null>(null);
+  currentDashboardSummary = this.dashboardSummary.asObservable();
   constructor(private http: HttpClient) {}
-
-  getBlogs(limit = 2): Observable<any[]> {
-    // return this.http.get<any[]>('/api/blogs', {
-    //   params: { limit }
-    // });
-    return of([{
-         id: '1',
-  title: 'First Blog',
-  excerpt: 'test',
-  content: 'Hi this is test blog1',
-  image: 'asset',
-  date: new Date(),
-  tags: ['tech','rnd'],
-  readTime: '15',
-    },
-{
-         id: '2',
-  title: 'Second Blog',
-  excerpt: 'test',
-  content: 'Hi this is test blog2',
-  image: 'asset',
-  date: new Date(),
-  tags: ['tech','rnd'],
-  readTime: '15',
-    },
-{
-         id: '3',
-  title: 'Second Blog',
-  excerpt: 'test',
-  content: 'Hi this is test blog2',
-  image: 'asset',
-  date: new Date(),
-  tags: ['tech','rnd'],
-  readTime: '15',
-    }])
+  private url = 'http://localhost:8080/dashboard/getDashboardSummary';
+  getDashboardSummary() {
+    return this.http.get<DashboardSummary>(this.url).pipe(
+      tap((data) => this.dashboardSummary.next(data)),
+      catchError((err) => {
+        console.error('Error fetching dashboard summary:', err);
+        this.dashboardSummary.next(null);
+        return of(null); // Ensure observable completes even on error
+      })
+    );
   }
 
   // Similar methods for news, projects, etc.

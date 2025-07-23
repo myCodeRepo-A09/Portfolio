@@ -1,0 +1,255 @@
+/* Main Blog Container */
+.blog-container {
+ // max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Blog Title */
+.blog-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  color: #222;
+  letter-spacing: -0.5px;
+}
+
+/* Meta Information */
+.blog-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  color: #666;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.blog-meta span {
+  display: flex;
+  align-items: center;
+}
+
+/* Author Section */
+.blog-author-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.author-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f0f0f0;
+}
+
+.author-name {
+  font-weight: 600;
+  color: #444;
+}
+
+/* Blog Banner Image */
+.blog-banner {
+  width: 100%;
+  max-height: 450px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Blog Content */
+.blog-content {
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  color: #444;
+}
+
+.blog-content p {
+  margin-bottom: 1.5rem;
+}
+
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin: 1.5rem 0;
+}
+
+.blog-content a {
+  color: #2563eb;
+  text-decoration: none;
+  border-bottom: 1px solid #2563eb;
+  transition: all 0.2s ease;
+}
+
+.blog-content a:hover {
+  color: #1d4ed8;
+  border-bottom-color: transparent;
+}
+
+/* Tags Section */
+.blog-tags {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.tag {
+  background: #f3f4f6;
+  color: #4b5563;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tag:hover {
+  background: #e5e7eb;
+  cursor: pointer;
+}
+
+/* Action Buttons */
+.blog-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.blog-actions button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  background: #f3f4f6;
+  color: #4b5563;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.blog-actions button:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+.blog-actions button:nth-child(2):hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.blog-actions button:nth-child(3):hover {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.blog-actions button:nth-child(4):hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Comments Section */
+.comments-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+.comments-section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: #222;
+}
+
+.comment-card {
+  background: #f9fafb;
+  padding: 1.2rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 3px solid #2563eb;
+}
+
+.comment-card strong {
+  color: #2563eb;
+}
+
+.comments-section input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin-top: 1rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.comments-section input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.comments-section button {
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.comments-section button:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blog-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .blog-title {
+    font-size: 2rem;
+  }
+  
+  .blog-meta {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-title {
+    font-size: 1.7rem;
+  }
+  
+  .blog-actions {
+    gap: 0.5rem;
+  }
+  
+  .blog-actions button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
