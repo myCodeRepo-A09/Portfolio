@@ -1,20 +1,28 @@
 /* Floating Chat Button */
 .floating-chat-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    padding: 12px 24px;
-    border-radius: 50px;
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: #fff;
-    font-weight: 500;
-    font-size: 14px;
-    border: none;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    z-index: 1000;
-    transition: 0.3s;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #1976d2; // Material Blue or your theme color
+  color: #fff;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #1565c0;
+  }
 }
+
 
 .floating-chat-btn:hover {
     transform: translateY(-2px);

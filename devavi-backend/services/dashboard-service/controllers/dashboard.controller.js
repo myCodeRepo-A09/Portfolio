@@ -3,6 +3,7 @@ const Project = require("../models/project.model");
 const News = require("../models/news.model");
 const Learn = require("../models/learn.model");
 const logger = require("../logger/logger");
+const User = require("../models/user.model");
 const redis = require("../../../shared/redis/redisClient");
 exports.getDashboardSummary = async (req, res) => {
   try {
@@ -44,5 +45,56 @@ exports.getDashboardSummary = async (req, res) => {
     logger.error("Dashboard Fetch Error:", err);
     console.error("Dashboard Fetch Error:", err);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.searchDashboard = async (req, res) => {
+  const q = req.query.q;
+
+  try {
+    const blogs = await Blog.aggregate([
+      {
+        $search: {
+          index: "default",
+          text: {
+            query: q,
+            path: ["title", "description", "author_id"],
+          },
+        },
+      },
+      { $project: { _id: 1, type: "blog", title: 1, description: 1 } },
+    ]);
+
+    const users = await User.aggregate([
+      {
+        $search: {
+          index: "default",
+          text: {
+            query: q,
+            path: ["name", "email"],
+          },
+        },
+      },
+      { $project: { _id: 1, type: "user", name: 1, bio: 1 } },
+    ]);
+
+    const topics = await Learn.aggregate([
+      {
+        $search: {
+          index: "default",
+          text: {
+            query: q,
+            path: ["title"],
+          },
+        },
+      },
+      { $project: { _id: 1, type: "topic", title: 1, summary: 1 } },
+    ]);
+
+    const result = [...blogs, ...users, ...topics];
+    res.json(result);
+  } catch (err) {
+    console.error("Search error:", err);
+    res.status(500).send("Search failed");
   }
 };

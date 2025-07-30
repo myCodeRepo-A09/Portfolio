@@ -1,11 +1,18 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
 const authRoutes = require("./routes/auth.routes");
 const { config } = require("./config/config");
 const app = express();
-app.use(cors());
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 
 // MongoDB connection

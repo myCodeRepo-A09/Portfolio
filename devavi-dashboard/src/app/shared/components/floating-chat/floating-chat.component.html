@@ -1,4 +1,6 @@
-<button class="floating-chat-btn" (click)="toggleChat()">Chat 💬</button>
+<button class="floating-chat-btn" (click)="toggleChat()" aria-label="Chat">
+    💬
+</button>
 
 <div *ngIf="chatOpen" class="chat-popup">
     <div class="friends-list">

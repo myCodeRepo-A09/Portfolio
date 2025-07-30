@@ -1,0 +1,31 @@
+<div class="login-wrapper"
+    style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&q=80');">
+    <div class="login-container">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+            <h2>Welcome Back 👋</h2>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Enter your email" formControlName="email">
+                <mat-error *ngIf="loginForm.get('email')?.invalid">Valid email is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+                    <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="loginForm.get('password')?.invalid">Min 6 characters</mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" class="full-width" type="submit"
+                [disabled]="loginForm.invalid">Login</button>
+
+            <div class="link-group">
+                <a (click)="goToForgotPassword()">Forgot Password?</a>
+                <a (click)="goToSignup()">Sign Up</a>
+            </div>
+        </form>
+    </div>
+</div>

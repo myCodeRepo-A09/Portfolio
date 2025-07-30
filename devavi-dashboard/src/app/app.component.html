@@ -1,8 +1,9 @@
-<app-header></app-header>
+<div class="app-shell">
+  <app-header></app-header>
 
-<div class="main-container">
-
-  <div class="content-area">
+  <div class="content-scroll-area">
     <router-outlet></router-outlet>
   </div>
+  <app-floating-chat></app-floating-chat>
+  <app-snackbar></app-snackbar>
 </div>

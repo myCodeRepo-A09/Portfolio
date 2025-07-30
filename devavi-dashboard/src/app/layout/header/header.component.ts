@@ -5,14 +5,22 @@ import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../core/services/search.service';
 import { SearchComponent } from '../search/search.component';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
+import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, SearchComponent,ThemeToggleComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    SearchComponent,
+    ThemeToggleComponent,
+  ],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  isUserLoggedIn: boolean = false;
   isMenuOpen = false;
   isScrolled = false;
   searchQuery = '';
@@ -22,10 +30,13 @@ export class HeaderComponent implements OnInit {
     { path: '/news', label: 'News' },
     { path: '/projects', label: 'Projects' },
     { path: '/learn', label: 'Learn With Me' },
-    { path: '/profile', label: 'Sign In' }
+    { path: '/login', label: 'Sign In' },
   ];
 
-  constructor(private searchService: SearchService) {}
+  constructor(
+    private searchService: SearchService,
+    private authService: AuthService
+  ) {}
 
   @HostListener('window:scroll')
   onWindowScroll() {
@@ -33,8 +44,12 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchService.currentSearch.subscribe(query => {
+    this.searchService.currentSearch.subscribe((query) => {
       this.searchQuery = query;
+    });
+
+    this.authService.userLoggedIn$.subscribe((isLoggedIn) => {
+      this.isUserLoggedIn = isLoggedIn;
     });
   }
 
@@ -50,5 +65,13 @@ export class HeaderComponent implements OnInit {
   closeMenu() {
     this.isMenuOpen = false;
     document.body.style.overflow = '';
+  }
+  logout() {
+    this.authService.logout();
+    this.authService.setLoggedIn(false);
+    this.isUserLoggedIn = false;
+    this.closeMenu();
+    // Optionally redirect to home or login page
+    // this.router.navigate(['/']);
   }
 }

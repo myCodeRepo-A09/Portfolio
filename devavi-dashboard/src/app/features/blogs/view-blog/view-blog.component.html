@@ -22,7 +22,9 @@
 
     <div class="blog-actions">
         <button (click)="copyLink()">🔗 Copy Link</button>
-        <button (click)="likeBlog()">❤️ {{ blog.likes.count }} Likes</button>
+        <button (click)="likeBlog()" [ngClass]="{ 'liked': blog.likes?.user?.includes(userName) }">
+            ❤️ {{ blog.likes?.count || 0 }} Likes
+        </button>
         <button *ngIf="canEdit" (click)="editBlog()">✏️ Edit</button>
         <button *ngIf="canEdit" (click)="deleteBlog()">🗑️ Delete</button>
     </div>
@@ -35,4 +37,5 @@
         <input [(ngModel)]="newComment" placeholder="Write a comment..." />
         <button (click)="addComment()">Post Comment</button>
     </div>
+
 </div>

@@ -16,9 +16,9 @@ exports.getBlogById = async function (req, res) {
         message: "Blog not found",
       });
     }
-    blog.views.user.push("userIdFromAuth");
-    blog.views.count = (blog.likes.count || 0) + 1;
-    await blog.save();
+    // blog.views.user.push("userIdFromAuth");
+    // blog.views.count = (blog.likes.count || 0) + 1;
+    // await blog.save();
     res.status(200).json({
       success: true,
       data: blog,
@@ -68,21 +68,63 @@ exports.createBlog = async function (req, res) {
 exports.updateBlog = async function (req, res) {};
 exports.deleteBlog = async function (req, res) {};
 exports.likeBlog = async function (req, res) {
-  const blog = await blogModel.findById(req.params.id);
-  blog.likes.user.push("userIdFromAuth");
-  blog.likes.count = (blog.likes.count || 0) + 1;
-  await blog.save();
-  if (await redis.get("dashboardSummary")) {
-    await redis.del("dashboardSummary");
+  try {
+    const blog = await blogModel.findById(req.params.id);
+
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    const userId = req.body.user || "default-user"; // Replace with actual auth extraction
+
+    // Prevent double-like
+    if (!blog.likes.user.includes(userId)) {
+      blog.likes.user.push(userId);
+      blog.likes.count += 1;
+    }
+
+    await blog.save();
+
+    if (await redis.get("dashboardSummary")) {
+      await redis.del("dashboardSummary");
+    }
+
+    res.json(blog);
+  } catch (error) {
+    console.error("Error in likeBlog:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
-  res.json(blog);
 };
+
 exports.commentBlog = async function (req, res) {
-  const blog = await blogModel.findById(req.params.id);
-  blog.comments.push({ user: "userIdFromAuth", text: req.body.comment });
-  await blog.save();
-  if (await redis.get("dashboardSummary")) {
-    await redis.del("dashboardSummary");
+  try {
+    const { user, comment } = req.body;
+    console.log(user, comment);
+
+    if (!user || !comment) {
+      return res.status(400).json({ message: "User and comment are required" });
+    }
+
+    const blog = await blogModel.findById(req.params.id);
+
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    blog.comments.push({
+      user,
+      text: comment,
+    });
+
+    await blog.save();
+
+    if (await redis.get("dashboardSummary")) {
+      await redis.del("dashboardSummary");
+    }
+
+    res.json(blog);
+  } catch (error) {
+    console.error("Error in commentBlog:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
-  res.json(blog);
 };

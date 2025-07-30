@@ -21,7 +21,7 @@ const blogSchema = new mongoose.Schema(
       },
     ],
     likes: { count: { type: Number, default: 0 }, user: [String] },
-    views: { count: { type: Number, default: 0 }, user: [String] },
+    //views: { count: { type: Number, default: 0 }, user: [String] },
   },
   { timestamps: true }
 );

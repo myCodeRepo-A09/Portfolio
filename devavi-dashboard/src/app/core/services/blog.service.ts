@@ -36,12 +36,12 @@ export class BlogService {
   }
 
   /** Like a blog */
-  likeBlog(id: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/${id}/like`, {});
+  likeBlog(id: string, user: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${id}/like`, { user });
   }
 
   /** Add a comment */
-  addComment(id: string, comment: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/${id}/comment`, { comment });
+  addComment(id: string, user: string, comment: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${id}/comment`, { user, comment });
   }
 }

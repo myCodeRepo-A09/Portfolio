@@ -21,9 +21,27 @@
         <!-- Navigation Menu -->
         <nav class="main-nav" [class.active]="isMenuOpen">
             <ul class="nav-list">
-                <li class="nav-item" *ngFor="let item of menuItems">
-                    <a [routerLink]="item.path" class="nav-link" (click)="closeMenu()">
-                        {{ item.label }}
+                <li class="nav-item">
+                    <a routerLink="/about" class="nav-link" (click)="closeMenu()">
+                        About Dev-Avi
+                    </a>
+                    <a routerLink="/blogs" class="nav-link" (click)="closeMenu()">
+                        Blogs
+                    </a>
+                    <a routerLink="/projects" class="nav-link" (click)="closeMenu()">
+                        Projects
+                    </a>
+                    <a routerLink="/news" class="nav-link" (click)="closeMenu()">
+                        News
+                    </a>
+                    <a routerLink="/learn" class="nav-link" (click)="closeMenu()">
+                        Learn With Me
+                    </a>
+                    <a *ngIf='!isUserLoggedIn' routerLink="/login" class="nav-link" (click)="closeMenu()">
+                        Login
+                    </a>
+                    <a *ngIf='isUserLoggedIn' class="nav-link" (click)="logout()">
+                        Logout
                     </a>
                 </li>
             </ul>

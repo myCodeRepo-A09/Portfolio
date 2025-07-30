@@ -8,6 +8,9 @@ import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { AuthService } from '../../../core/services/auth.service';
+import { SnackbarService } from '../../../core/services/snackbar.service';
+
 @Component({
   selector: 'app-view-blog',
   standalone: true,
@@ -32,37 +35,59 @@ export class ViewBlogComponent implements OnInit {
   url: string = 'http://localhost:8080/';
   newComment = '';
   canEdit = false;
+  isLoggedIn = false;
+  userName: string = '';
   public destroy$ = new Subject<void>();
+
   constructor(
     private route: ActivatedRoute,
     private blogService: BlogService,
     private router: Router,
     private contentService: ContentService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authService: AuthService,
+    private snackbar: SnackbarService
   ) {}
 
   ngOnInit(): void {
     const blogId = this.route.snapshot.paramMap.get('id');
-    this.contentService.currentDashboardSummary
+    this.userName = this.authService.getCurrentUser().name;
+    this.contentService.getBlogById(blogId as string).subscribe((blog) => {
+      if (blog && blog.data) {
+        this.blog = blog.data;
+        this.comments = blog.data.comments || [];
+        this.blog.content = this.sanitizer.bypassSecurityTrustHtml(
+          blog.data.content
+        );
+        this.canEdit =
+          this.authService.getCurrentUser().email === blog.data.author;
+      } else {
+        console.error('Blog not found');
+        this.router.navigate(['/dashboardSummary']);
+      }
+    });
+
+    this.authService.userLoggedIn$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        if (data) {
-          this.blog = data.blogs.find((b: any) => b._id === blogId);
-
-          this.blog.content = this.sanitizer.bypassSecurityTrustHtml(
-            this.blog.content
-          );
-
-          this.comments = this.blog?.comments || [];
-          this.canEdit = true; //this.blog.author_id === 'currentUserId'; // your user id logic
-        }
+      .subscribe((isLoggedIn: boolean) => {
+        this.isLoggedIn = isLoggedIn;
       });
   }
 
   likeBlog() {
-    this.blogService.likeBlog(this.blog._id).subscribe((updated) => {
-      this.blog.likes.count = updated.likes.count;
-    });
+    if (!this.isLoggedIn) {
+      this.snackbar.warn('You must be logged in to like a blog.');
+      return;
+    }
+    if (this.blog.likes.user.includes(this.userName)) {
+      this.snackbar.warn('You have already liked this blog.');
+      return;
+    }
+    this.blogService
+      .likeBlog(this.blog._id, this.userName)
+      .subscribe((updated) => {
+        this.blog.likes.count = updated.likes.count;
+      });
   }
 
   copyLink() {
@@ -84,10 +109,14 @@ export class ViewBlogComponent implements OnInit {
 
   addComment() {
     if (!this.newComment.trim()) return;
+
+    let userName = this.authService.getCurrentUser().name || 'Anonymous';
+
     this.blogService
-      .addComment(this.blog._id, this.newComment)
+      .addComment(this.blog._id, userName, this.newComment)
       .subscribe((updated) => {
-        this.blog.comments = [...updated.comments];
+        this.blog.comments = updated.comments;
+        this.comments = this.blog.comments;
         this.newComment = '';
       });
   }

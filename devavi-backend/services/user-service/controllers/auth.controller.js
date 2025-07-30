@@ -1,5 +1,5 @@
 const User = require("../models/user.model");
-const redis = require("../utils/redisClient");
+const redis = require("../../../shared/redis/redisClient");
 const sendEmail = require("../utils/sendEmail");
 const {
   generateAccessToken,
@@ -32,17 +32,31 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     //check if email present in database
-    const user = User.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
     const payload = { id: user._id, email: user.email };
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
-    await redis.setEx(`refresh:${user._id}`, refreshToken, {
-      EX: 7 * 24 * 60 * 60,
+    +res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Use secure in production
+      sameSite: "strict", // or 'lax' depending on your needs
+      maxAge: 15 * 60 * 1000, // 15 minutes (for access token)
     });
-    res.json({ accessToken, refreshToken });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days (for refresh token)
+    });
+    res.status(200).json({
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      user: { email: user.email, name: user.name },
+    });
   } catch (err) {
     return res
       .status(400)

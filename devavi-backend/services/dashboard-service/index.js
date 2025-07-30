@@ -16,7 +16,15 @@ const path = require("path");
 
 //connect database
 mongoose
-  .connect(process.env.MONGO_URI || config.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    serverApi: {
+      version: "1",
+      strict: true,
+      deprecationErrors: true,
+    },
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("Dashboard Mongo Connected"))
   .catch((err) => console.error(err));
 
