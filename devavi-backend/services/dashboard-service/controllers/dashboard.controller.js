@@ -5,6 +5,7 @@ const Learn = require("../models/learn.model");
 const logger = require("../logger/logger");
 const User = require("../models/user.model");
 const redis = require("../../../shared/redis/redisClient");
+const profile = require("../utility/profile.json");
 exports.getDashboardSummary = async (req, res) => {
   try {
     logger.info("getDashboardSummary controller:request received");
@@ -96,5 +97,33 @@ exports.searchDashboard = async (req, res) => {
   } catch (err) {
     console.error("Search error:", err);
     res.status(500).send("Search failed");
+  }
+};
+
+exports.aboutMeInfo = async (req, res) => {
+  try {
+    res.status(200).json(profile);
+  } catch (err) {
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.uploadFiles = async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files uploaded" });
+    }
+    const filesMetadata = req.files.map((file) => ({
+      originalName: file.originalname,
+      mimeType: file.mimetype,
+      size: file.size,
+      path: file.path,
+      url: `uploads/blogs/${file.filename}`,
+      uploadedAt: new Date(),
+    }));
+    res.status(200).json({ message: "Files uploaded", files: filesMetadata });
+  } catch (err) {
+    console.error("File upload error:", err);
+    res.status(500).json({ error: "File upload failed" });
   }
 };

@@ -1,0 +1,55 @@
+<div class="about-container" *ngIf="profile" [@fadeInUp]>
+
+    <!-- Profile Image -->
+    <div class="profile-header">
+        <img src="assets/images/profile.jpg" alt="Avinash Andhale" class="profile-img" />
+        <div>
+            <h1 class="title">👨‍💻 {{ profile.name }}</h1>
+            <p class="subtitle">{{ profile.summary }}</p>
+        </div>
+    </div>
+
+    <!-- Sections -->
+    <section class="section" *ngIf="profile.skills">
+        <h2>🛠 Skills</h2>
+        <ul>
+            <li *ngFor="let skill of profile.skills">{{ skill }}</li>
+        </ul>
+    </section>
+
+    <section class="section" *ngIf="profile.experience">
+        <h2>💼 Experience</h2>
+        <div *ngFor="let exp of profile.experience" class="card">
+            <h3>{{ exp.role }} &#64; {{ exp.company }}</h3>
+            <p>{{ exp.duration }} | {{ exp.location }}</p>
+            <ul>
+                <li *ngFor="let task of exp.responsibilities">{{ task }}</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section" *ngIf="profile.projects">
+        <h2>🚀 Projects</h2>
+        <div *ngFor="let project of profile.projects" class="card">
+            <h3>{{ project.name }}</h3>
+            <p>{{ project.description }}</p>
+            <a *ngIf="project.link" href="{{ project.link }}" target="_blank">🔗 View Project</a>
+        </div>
+    </section>
+
+    <section class="section" *ngIf="profile.awards">
+        <h2>🏆 Awards</h2>
+        <ul>
+            <li *ngFor="let award of profile.awards">{{ award }}</li>
+        </ul>
+    </section>
+
+    <section class="section" *ngIf="profile.contact">
+        <h2>📞 Contact</h2>
+        <p>Email: {{ profile.contact.email }}</p>
+        <p>Phone: {{ profile.contact.phone }}</p>
+        <p>GitHub: <a href="{{ profile.contact.github }}" target="_blank">{{ profile.contact.github }}</a></p>
+        <p>LinkedIn: <a href="{{ profile.contact.linkedin }}" target="_blank">{{ profile.contact.linkedin }}</a></p>
+    </section>
+
+</div>

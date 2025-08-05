@@ -4,7 +4,7 @@
     <div class="blog-meta">
         <span>{{ blog.readTime }} read</span> •
         <span>{{ blog.published_at | date:'longDate' }}</span> •
-        <span>{{ blog.views || 0 }} views</span>
+        <span>{{ blog.views.count || 0 }} views</span>
     </div>
 
     <div class="blog-author-section">
@@ -15,6 +15,77 @@
     <img *ngIf="blog.images?.length" [src]="url+blog.images[0]" class="blog-banner" />
 
     <p class="blog-content" [innerHTML]="blog.content"></p>
+
+    <!-- 📎 Attachments -->
+    <div class="blog-attachments" *ngIf="blog.attachments?.length">
+        <h3 class="attachments-title">Attachments</h3>
+        <div class="attachments-grid">
+            <div class="attachment-card" *ngFor="let file of blog.attachments">
+                <div class="file-preview">
+                    <ng-container [ngSwitch]="file.mimeType">
+                        <!-- Images -->
+                        <img *ngSwitchCase="'image/png'" [src]="url + file.url" alt="Image" class="preview-image" />
+                        <img *ngSwitchCase="'image/jpeg'" [src]="url + file.url" alt="Image" class="preview-image" />
+                        <img *ngSwitchCase="'image/gif'" [src]="url + file.url" alt="Image" class="preview-image" />
+                        <img *ngSwitchCase="'image/webp'" [src]="url + file.url" alt="Image" class="preview-image" />
+
+                        <!-- Videos -->
+                        <video *ngSwitchCase="'video/mp4'" [src]="url + file.url" controls
+                            class="preview-video"></video>
+                        <video *ngSwitchCase="'video/quicktime'" [src]="url + file.url" controls
+                            class="preview-video"></video>
+
+                        <!-- PDF -->
+                        <div *ngSwitchCase="'application/pdf'" class="file-icon pdf-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M5,4H15V8H19V20H5V4M7,6V18H17V10H13V6H7M9,13H11V15H9V13M9,9H11V11H9V9M13,13H15V15H13V13M13,9H15V11H13V9Z" />
+                            </svg>
+                        </div>
+
+                        <!-- Excel -->
+                        <div *ngSwitchCase="'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
+                            class="file-icon excel-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.8,20H14L12,16.6L10,20H8.2L11.1,15.5L8.2,11H10L12,14.4L14,11H15.8L12.9,15.5L15.8,20M13,9V3.5L18.5,9H13Z" />
+                            </svg>
+                        </div>
+
+                        <!-- Word -->
+                        <div *ngSwitchCase="'application/vnd.openxmlformats-officedocument.wordprocessingml.document'"
+                            class="file-icon word-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.2,20H13.8L12,13.2L10.2,20H8.8L6.6,11H8.1L9.5,17.8L11.3,11H12.6L14.4,17.8L15.8,11H17.3L15.2,20M13,9V3.5L18.5,9H13Z" />
+                            </svg>
+                        </div>
+
+                        <!-- Default file icon -->
+                        <div *ngSwitchDefault class="file-icon default-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M13,9V3.5L18.5,9M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6Z" />
+                            </svg>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="file-info">
+                    <p class="file-name">{{ file.originalName }}</p>
+                    <div class="file-meta">
+                        <span class="file-type">{{ file.mimeType }}</span>
+                        <a [href]="url + file.url" target="_blank" download class="download-btn">
+                            <svg viewBox="0 0 24 24" class="download-icon">
+                                <path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+                            </svg>
+                            Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="blog-tags">
         <span *ngFor="let tag of blog.tags" class="tag">{{ tag }}</span>

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
-import { AboutComponent } from './features/about/about.component';
 import { BlogsComponent } from './features/blogs/blogs.component';
 import { ProjectsComponent } from './features/projects/projects.component';
 import { NewsComponent } from './features/news/news.component';
@@ -9,6 +8,8 @@ import { ViewBlogComponent } from './features/blogs/view-blog/view-blog.componen
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { AboutMeComponent } from './features/about-me/about-me.component';
+import { BlogResolver } from './core/guards/blog.resolver';
 
 export const routes: Routes = [
   {
@@ -24,9 +25,10 @@ export const routes: Routes = [
   },
   {
     path: 'about',
-    component: AboutComponent,
+    component: AboutMeComponent,
   },
   { path: 'blogs/:id', component: ViewBlogComponent },
+  { path: 'blogs', component: BlogsComponent },
   {
     path: 'projects',
     component: ProjectsComponent,
@@ -51,7 +53,22 @@ export const routes: Routes = [
     path: 'forgot-password',
     component: ForgotPasswordComponent,
   },
+  {
+    path: 'blogs/create',
+    loadComponent: () =>
+      import('./features/blogs/create-blog/create-blog.component').then(
+        (m) => m.CreateBlogComponent
+      ),
+  },
 
+  {
+    path: 'blogs/edit/:id',
+    loadComponent: () =>
+      import('./features/blogs/create-blog/create-blog.component').then(
+        (m) => m.CreateBlogComponent
+      ),
+    resolve: { blog: BlogResolver },
+  },
   {
     path: '**',
     redirectTo: '',

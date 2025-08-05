@@ -51,6 +51,7 @@ export class ViewBlogComponent implements OnInit {
 
   ngOnInit(): void {
     const blogId = this.route.snapshot.paramMap.get('id');
+
     this.userName = this.authService.getCurrentUser().name;
     this.contentService.getBlogById(blogId as string).subscribe((blog) => {
       if (blog && blog.data) {
@@ -59,8 +60,9 @@ export class ViewBlogComponent implements OnInit {
         this.blog.content = this.sanitizer.bypassSecurityTrustHtml(
           blog.data.content
         );
+
         this.canEdit =
-          this.authService.getCurrentUser().email === blog.data.author;
+          this.authService.getCurrentUser().name === blog.data.author_id;
       } else {
         console.error('Blog not found');
         this.router.navigate(['/dashboardSummary']);

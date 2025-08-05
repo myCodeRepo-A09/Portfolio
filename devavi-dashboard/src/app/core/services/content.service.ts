@@ -31,5 +31,38 @@ export class ContentService {
     );
   }
 
+  getAboutMeInfo(): Observable<any> {
+    return this.http.get('http://localhost:8080/dashboard/about-me').pipe(
+      catchError((err) => {
+        console.error('Error fetching about me info:', err);
+        return of(null); // Return null or handle error as needed
+      })
+    );
+  }
+
+  createBlog(blogData: any): Observable<any> {
+    return this.http
+      .post('http://localhost:8080/blogs/createBlog', blogData)
+      .pipe(
+        catchError((err) => {
+          console.error('Error creating blog:', err);
+          return of(null); // Return null or handle error as needed
+        })
+      );
+  }
+
+  uploadFiles(files: File[]): Observable<any> {
+    const formData = new FormData();
+    files.forEach((file) => formData.append('files', file));
+    return this.http
+      .post('http://localhost:8080/dashboard/uploadFiles', formData)
+      .pipe(
+        catchError((err) => {
+          console.error('Error uploading files:', err);
+          return of(null); // Return null or handle error as needed
+        })
+      );
+  }
+
   // Similar methods for news, projects, etc.
 }

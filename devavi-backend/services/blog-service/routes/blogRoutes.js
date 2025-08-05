@@ -12,7 +12,7 @@ const {
 router.get("/getBlogById/:id", getBlogById);
 router.get("/getAllBlogs", getAllBlogs);
 router.post("/createBlog", createBlog);
-router.post("/updateBlog", updateBlog);
+router.post("/updateBlog/:id", updateBlog);
 router.delete("/deleteBlog/:id", deleteBlog);
 router.post("/:id/like", likeBlog);
 router.post("/:id/comment", commentBlog);

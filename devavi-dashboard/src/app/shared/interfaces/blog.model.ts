@@ -14,5 +14,7 @@ export interface Blog {
   comments: string[];
   likes: { user: string[]; count: number };
   views: number;
+  attachments: string[];
+  author_id: string;
   __v: string;
 }

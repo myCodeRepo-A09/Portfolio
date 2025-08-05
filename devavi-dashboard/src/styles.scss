@@ -1,5 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import 'quill/dist/quill.snow.css';
+
 
 body {
   background-color: #f9fafb;
@@ -7,15 +9,33 @@ body {
 }
 
 :root {
-  --primary-color: #3f51b5;
-  --accent-color: #ff4081;
-  --warn-color: #e53935;
+  // Primary Theme Colors
+  --primary-color: #4CAF50;
+  --primary-color-dark: #388E3C;
+  --primary-color-light: #C8E6C9;
 
-  --background-color: #f3f4f6;
-  --surface-color: #ffffffcc; // translucent white
+  --accent-color: #2196F3;
+  --accent-color-dark: #1976D2;
+  --accent-color-light: #BBDEFB;
+
+  --warn-color: #F44336;
+  --warn-color-dark: #D32F2F;
+
+  // Text Colors
+  --text-on-primary: #ffffff;
+  --text-on-accent: #ffffff;
+  --text-on-warn: #ffffff;
   --text-color: #1f2937;
+
+  // Background & Surface
+  --background-color: #f3f4f6;
+  --surface-color: #ffffffcc;
+
+  // Borders & Shadow
   --border-color: rgba(0, 0, 0, 0.05);
   --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  // Effects
   --blur: 12px;
   --transition: all 0.3s ease-in-out;
 }
@@ -176,6 +196,6 @@ body {
 
 body {
   background-color: var(--bg-primary);
-  color: var(--text-primary);
+  //color: var(--text-primary);
   transition: background-color 0.5s ease, color 0.3s ease;
 }

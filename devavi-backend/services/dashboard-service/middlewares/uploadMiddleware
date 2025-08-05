@@ -1,0 +1,261 @@
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+const sharp = require("sharp");
+const createError = require("http-errors");
+
+class FileUploader {
+  constructor(options = {}) {
+    this.defaultOptions = {
+      uploadDir: path.join(__dirname, "../uploads/blogs"),
+      fieldName: "files",
+      maxFiles: 10,
+      maxFileSize: 100 * 1024 * 1024, // 100MB
+      allowedMimeTypes: null,
+      convertImagesToWebp: true,
+      webpQuality: 80,
+    };
+
+    this.options = { ...this.defaultOptions, ...options };
+    this.ensureUploadDirExists();
+    this.storage = this.configureStorage();
+    this.fileFilter = this.configureFileFilter();
+    this.upload = this.configureUpload();
+  }
+
+  ensureUploadDirExists() {
+    try {
+      if (!fs.existsSync(this.options.uploadDir)) {
+        fs.mkdirSync(this.options.uploadDir, { recursive: true });
+      }
+    } catch (err) {
+      throw new Error(`Failed to create upload directory: ${err.message}`);
+    }
+  }
+
+  generateUniqueFilename(baseName, ext) {
+    let filename = `${baseName}${ext}`;
+    let counter = 1;
+    const fullPath = () => path.join(this.options.uploadDir, filename);
+
+    while (fs.existsSync(fullPath())) {
+      filename = `${baseName}(${counter})${ext}`;
+      counter++;
+    }
+
+    return filename;
+  }
+
+  configureStorage() {
+    return multer.diskStorage({
+      destination: (req, file, cb) => {
+        cb(null, this.options.uploadDir);
+      },
+      filename: (req, file, cb) => {
+        try {
+          const timestamp = Date.now();
+          const baseName = file.originalname
+            .replace(/\.[^/.]+$/, "")
+            .replace(/\s+/g, "-")
+            .toLowerCase();
+
+          let filename;
+
+          if (this.options.convertImagesToWebp && this.isImage(file.mimetype)) {
+            filename = this.generateUniqueFilename(
+              `${timestamp}-${baseName}`,
+              ".webp"
+            );
+          } else {
+            const ext = path.extname(file.originalname);
+            filename = this.generateUniqueFilename(
+              `${timestamp}-${baseName}`,
+              ext
+            );
+          }
+
+          cb(null, filename);
+        } catch (err) {
+          cb(createError(500, "Failed to generate unique filename"));
+        }
+      },
+    });
+  }
+
+  configureFileFilter() {
+    return (req, file, cb) => {
+      try {
+        if (!this.options.allowedMimeTypes) {
+          return cb(null, true);
+        }
+
+        if (this.options.allowedMimeTypes.includes(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(
+            createError(
+              415,
+              `Invalid file type. Allowed types: ${this.options.allowedMimeTypes.join(
+                ", "
+              )}`
+            )
+          );
+        }
+      } catch (err) {
+        cb(createError(500, "File filter error"));
+      }
+    };
+  }
+
+  configureUpload() {
+    return multer({
+      storage: this.storage,
+      fileFilter: this.fileFilter,
+      limits: {
+        fileSize: this.options.maxFileSize,
+        files: this.options.maxFiles,
+      },
+    });
+  }
+
+  isImage(mimetype) {
+    return mimetype && mimetype.startsWith("image/");
+  }
+
+  async processFiles(files) {
+    const processedFiles = [];
+
+    for (const file of files) {
+      try {
+        const filePath = path.join(this.options.uploadDir, file.filename);
+
+        if (this.options.convertImagesToWebp && this.isImage(file.mimetype)) {
+          await sharp(filePath)
+            .webp({ quality: this.options.webpQuality })
+            .toFile(filePath)
+            .then(() => {
+              file.filename = file.filename.split(".")[0] + ".webp";
+              file.mimetype = "image/webp";
+              processedFiles.push(file);
+            })
+            .catch((err) => {
+              console.error("Error converting image to WebP:", err);
+              processedFiles.push(file); // Continue without conversion
+            });
+        } else {
+          processedFiles.push(file);
+        }
+      } catch (err) {
+        console.error("Error processing file:", err);
+        processedFiles.push(file);
+      }
+    }
+
+    return processedFiles;
+  }
+
+  getMiddleware() {
+    const uploadMiddleware = this.upload.array(
+      this.options.fieldName,
+      this.options.maxFiles
+    );
+
+    return async (req, res, next) => {
+      uploadMiddleware(req, res, async (err) => {
+        if (err) {
+          return this.handleUploadError(err, next);
+        }
+
+        try {
+          if (req.files && req.files.length > 0) {
+            req.files = await this.processFiles(req.files);
+          }
+          next();
+        } catch (processErr) {
+          next(createError(500, "File processing failed"));
+        }
+      });
+    };
+  }
+
+  single(fieldName) {
+    const uploadMiddleware = this.upload.single(fieldName);
+    return this.wrapWithErrorHandlerAndProcessing(uploadMiddleware);
+  }
+
+  array(fieldName, maxCount) {
+    const uploadMiddleware = this.upload.array(fieldName, maxCount);
+    return this.wrapWithErrorHandlerAndProcessing(uploadMiddleware);
+  }
+
+  fields(fields) {
+    const uploadMiddleware = this.upload.fields(fields);
+    return this.wrapWithErrorHandlerAndProcessing(uploadMiddleware);
+  }
+
+  any() {
+    const uploadMiddleware = this.upload.any();
+    return this.wrapWithErrorHandlerAndProcessing(uploadMiddleware);
+  }
+
+  wrapWithErrorHandlerAndProcessing(uploadMiddleware) {
+    return async (req, res, next) => {
+      uploadMiddleware(req, res, async (err) => {
+        if (err) {
+          return this.handleUploadError(err, next);
+        }
+
+        try {
+          if (req.file) {
+            req.file = (await this.processFiles([req.file]))[0];
+          } else if (req.files) {
+            req.files = await this.processFiles(req.files);
+          }
+          next();
+        } catch (processErr) {
+          next(createError(500, "File processing failed"));
+        }
+      });
+    };
+  }
+
+  handleUploadError(err, next) {
+    if (err instanceof multer.MulterError) {
+      switch (err.code) {
+        case "LIMIT_FILE_SIZE":
+          return next(
+            createError(
+              413,
+              `File too large. Max size is ${
+                this.options.maxFileSize / (1024 * 1024)
+              }MB`
+            )
+          );
+        case "LIMIT_FILE_COUNT":
+          return next(createError(413, "Too many files uploaded"));
+        case "LIMIT_FIELD_KEY":
+          return next(createError(400, "Field name too long"));
+        case "LIMIT_FIELD_VALUE":
+          return next(createError(400, "Field value too long"));
+        case "LIMIT_FIELD_COUNT":
+          return next(createError(413, "Too many fields"));
+        case "LIMIT_UNEXPECTED_FILE":
+          return next(createError(400, "Unexpected field"));
+        default:
+          return next(createError(400, "Multer upload error"));
+      }
+    } else if (err.status && err.message) {
+      return next(err); // Already a formatted http-error
+    } else {
+      return next(createError(500, "File upload failed"));
+    }
+  }
+}
+
+const defaultUploader = new FileUploader();
+
+module.exports = {
+  FileUploader,
+  uploadMultiple: defaultUploader.getMiddleware(),
+  fileUploader: defaultUploader,
+};

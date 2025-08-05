@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 const redis = require("../../../shared/redis/redisClient");
 const sendEmail = require("../utils/sendEmail");
+
 const {
   generateAccessToken,
   generateRefreshToken,

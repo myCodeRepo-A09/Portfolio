@@ -1,168 +1,170 @@
-/* Floating Chat Button */
-.floating-chat-btn {
+.floating-chat {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background-color: #1976d2; // Material Blue or your theme color
-  color: #fff;
-  font-size: 24px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  width: 700px;
+  height: 500px;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1100;
-  transition: background-color 0.3s ease;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: "Segoe UI", sans-serif;
+  z-index: 1000;
 
-  &:hover {
-    background-color: #1565c0;
-  }
-}
-
-
-.floating-chat-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-}
-
-/* Chat Popup */
-.chat-popup {
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    width: 380px;
-    height: 500px;
-    background: linear-gradient(135deg, #e9f7ef, #f8f9fa);
-    border-radius: 16px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-    display: flex;
-    overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-    z-index: 9999;
-    animation: slideUp 0.4s ease forwards;
-}
-
-@keyframes slideUp {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-/* Friends List */
-.friends-list {
-    width: 35%;
-    background: #f0f0f0;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;
-}
-
-.friends-list div {
-    background-color: #fff;
-    padding: 10px 14px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 14px;
-    color: #333;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-}
-
-.friends-list div:hover {
-    background-color: #e1f7e7;
-}
-
-.friends-list div.selected {
-    background-color: #d1f4d4;
-    border-left: 4px solid #25D366;
-    font-weight: 500;
-    color: #128C7E;
-}
-
-/* Chat Window */
-.chat-window {
-    width: 65%;
-    display: flex;
-    flex-direction: column;
-    background: #f8f9fa;
-}
-
-/* Messages Area */
-.messages {
-    flex-grow: 1;
-    padding: 16px;
-    overflow-y: auto;
-    font-size: 13px;
-    line-height: 1.5;
-    background-color: #e5ddd5;
-}
-
-.messages div {
-    margin-bottom: 8px;
-    max-width: 70%;
-    padding: 8px 12px;
-    border-radius: 16px;
-    word-wrap: break-word;
-    clear: both;
-}
-
-.messages div:nth-child(odd) {
-    background-color: #dcf8c6;
-    align-self: flex-start;
-}
-
-.messages div:nth-child(even) {
-    background-color: #fff;
-    align-self: flex-end;
-}
-
-/* Text Input */
-input[type="text"],
-input[type="file"] {
-    width: calc(100% - 24px);
-    margin: 8px 12px;
-    padding: 10px;
-    font-size: 13px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    outline: none;
-    transition: border-color 0.3s;
-    background-color: #fff;
-}
-
-input[type="text"]:focus {
-    border-color: #25D366;
-}
-
-/* Buttons Inside Chat */
-button {
-    margin: 8px 12px;
-    padding: 10px;
-    width: calc(100% - 24px);
-    border: none;
-    border-radius: 20px;
-    background-color: #25D366;
+  .chat-header {
+    background: #3f51b5;
     color: white;
-    font-size: 13px;
-    cursor: pointer;
-    transition: 0.3s;
-}
+    padding: 1rem;
+    font-weight: bold;
+    text-align: center;
+  }
 
-button:hover {
-    background-color: #128C7E;
-}
+  .chat-body {
+    display: flex;
+    flex: 1;
+  }
 
-/* Attachment Links */
-.messages a {
-    color: #128C7E;
-    text-decoration: none;
-    font-weight: 500;
-}
-.messages a:hover {
-    text-decoration: underline;
+  .left-sidebar {
+    width: 200px;
+    border-right: 1px solid #eee;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+
+    input {
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .user-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .user {
+      padding: 0.5rem;
+      border-radius: 6px;
+      margin: 0.2rem 0;
+      cursor: pointer;
+      position: relative;
+
+      &:hover {
+        background: #f0f0f0;
+      }
+
+      &.active {
+        background: #e5e5ff;
+        font-weight: bold;
+      }
+
+      .status {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+        background: gray;
+
+        &.online {
+          background: green;
+        }
+      }
+
+      .badge {
+        background: red;
+        color: white;
+        font-size: 10px;
+        border-radius: 50%;
+        padding: 2px 6px;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+      }
+    }
+  }
+
+  .right-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+
+    .chat-with {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .chat-history {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .msg {
+      max-width: 60%;
+      background: #eee;
+      border-radius: 8px;
+      padding: 0.5rem;
+      align-self: flex-start;
+
+      &.me {
+        align-self: flex-end;
+        background: #d4f1c5;
+      }
+
+      .meta {
+        font-size: 0.7rem;
+        color: #666;
+      }
+
+      .text {
+        margin-top: 2px;
+      }
+    }
+
+    .file-preview {
+      font-size: 0.85rem;
+      color: #444;
+      padding: 0.5rem;
+      background: #f8f9fa;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+
+      input[type='text'] {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      input[type='file'] {
+        width: auto;
+      }
+
+      button {
+        background: #3f51b5;
+        color: white;
+        padding: 0.5rem 0.8rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+          background: #2c3e97;
+        }
+      }
+    }
+  }
 }

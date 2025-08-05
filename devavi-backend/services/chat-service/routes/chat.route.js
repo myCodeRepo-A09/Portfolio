@@ -1,16 +1,9 @@
 const express = require("express");
-const Chat = require("../models/chat.model");
 const router = express.Router();
+const messageController = require("../controllers/chat.controller");
 
-router.get("/:userId/:friendId", async (req, res) => {
-  const { userId, friendId } = req.params;
-  const messages = await Chat.find({
-    $or: [
-      { senderId: userId, receiverId: friendId },
-      { senderId: friendId, receiverId: userId },
-    ],
-  }).sort({ timestamp: 1 });
-  res.json(messages);
-});
+router.post("/", messageController.sendMessage);
+router.get("/", messageController.getMessages);
+router.patch("/:messageId/read", messageController.markAsRead);
 
 module.exports = router;

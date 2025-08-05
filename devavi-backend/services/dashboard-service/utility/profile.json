@@ -1,0 +1,68 @@
+{
+  "name": "Avinash Andhale",
+  "summary": "Results-driven Full Stack Developer with 4 years of experience specializing in Angular, Node.js, and scalable backend services.",
+  "skills": [
+    "Angular",
+    "Node.js",
+    "TypeScript",
+    "JavaScript",
+    "MySQL",
+    "MongoDB",
+    "Docker",
+    "Redis",
+    "Microservices",
+    "Azure",
+    "RxJS",
+    "Jasmine",
+    "Karma"
+  ],
+  "experience": [
+    {
+      "role": "R&D Development Engineer",
+      "company": "Dassault Systemes",
+      "duration": "05/2023 – Present",
+      "location": "Pune",
+      "responsibilities": [
+        "Developed features for Change Management App",
+        "Reduced object load time by 60%",
+        "Maintained unit test coverage using Jasmine and Karma",
+        "Handled Web Service Layer APIs and server deployments"
+      ]
+    },
+    {
+      "role": "Assistant System Engineer",
+      "company": "TCS",
+      "duration": "07/2021 – 05/2023",
+      "location": "Pune",
+      "responsibilities": [
+        "Built responsive UIs with Angular and DevExtreme",
+        "Integrated RxJS and lazy loading",
+        "Developed REST APIs and optimized MySQL DB",
+        "Led Agile sprint planning"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Drone Survey Management System",
+      "description": "Angular + Node.js microservice system with Redis caching and NgRx.",
+      "link": "https://github.com/myCodeRepo-A09/Drone-Survey-Management-System.git"
+    },
+    {
+      "name": "Tours & Travel Services",
+      "description": "Responsive Angular UI with WhatsApp-based queries and Google Maps integration."
+    }
+  ],
+  "awards": [
+    "Champion – Investigation Request @ Dassault",
+    "Evangelist – DSSL",
+    "Best Team Award – TCS",
+    "On the Spot Award – TCS"
+  ],
+  "contact": {
+    "email": "aaaviandhale@gmail.com",
+    "phone": "+91 8552980643",
+    "github": "https://github.com/myCodeRepo-A09",
+    "linkedin": "https://www.linkedin.com/in/avinash-andhale-22385193"
+  }
+}

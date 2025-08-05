@@ -1,38 +1,67 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
-export class ChatService {
+export class ChatSocketService {
   private socket: Socket;
 
-  constructor(private http: HttpClient) {
-    this.socket = io('http://localhost:4000');
+  constructor() {
+    this.socket = io(environment.chatSocketUrl, {
+      transports: ['websocket'],
+      reconnectionAttempts: 5,
+      timeout: 10000,
+    });
   }
 
-  joinRoom(userId: string, friendId: string) {
-    this.socket.emit('joinRoom', { userId, friendId });
+  registerUser(userId: string) {
+    this.socket.emit('register-user', userId);
   }
 
-  sendMessage(data: any) {
-    this.socket.emit('sendMessage', data);
+  sendMessage(message: any) {
+    this.socket.emit('send-message', message);
   }
 
-  onNewMessage(callback: (msg: any) => void) {
-    this.socket.on('newMessage', callback);
+  onMessageReceived(callback: (msg: any) => void) {
+    this.socket.on('receive-message', callback);
   }
 
-  uploadAttachment(formData: FormData) {
-    return this.http.post<{ fileUrl: string }>(
-      'http://localhost:4000/upload',
-      formData
-    );
+  onMessageSent(callback: (msg: any) => void) {
+    this.socket.on('message-sent', callback);
   }
 
-  getChatHistory(userId: string, friendId: string) {
-    return this.http.get<any[]>(
-      `http://localhost:4000/api/chats/${userId}/${friendId}`
-    );
+  onMessageRead(callback: (data: any) => void) {
+    this.socket.on('message-read', callback);
+  }
+
+  readMessage(data: { messageId: string; userId: string }) {
+    this.socket.emit('read-message', data);
+  }
+
+  onUserStatus(
+    callback: (status: { userId: string; online: boolean }) => void
+  ) {
+    this.socket.on('user-status-update', callback);
+  }
+
+  disconnect() {
+    this.socket.disconnect();
+  }
+
+  uploadFile(file: File, userId: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+
+      formData.append('file', file);
+      formData.append('userId', userId);
+      this.socket.emit('upload-file', formData, (response: any) => {
+        if (response.error) {
+          reject(response.error);
+        }
+        resolve(response.fileUrl);
+      });
+    });
   }
 }

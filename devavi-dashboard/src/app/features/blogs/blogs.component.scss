@@ -1,109 +1,128 @@
-.blog-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    font-family: 'Inter', sans-serif;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-}
+.blogs-container {
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
 
-.blog-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #222;
-    margin-bottom: 10px;
-}
-
-.blog-meta {
-    color: #777;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-.blog-author-section {
+  .toolbar {
     display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 30px;
-}
+    padding: 1rem;
+    background-color: var(--primary-color-light);
+    color: var(--text-on-primary);
 
-.author-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+    mat-form-field {
+      flex: 1 1 12.5rem;
+      min-width: 12.5rem;
+    }
 
-.author-name {
-    font-weight: 500;
-    color: #444;
-}
+    .exportButton {
+      display: inline-flex;
+      align-items: center;
+      height: 50px;
+      padding: 0.625rem 1rem;
+      margin-bottom: 25px;
+      background-color: var(--primary-color);
+      color: var(--text-on-primary);
+      font-weight: 500;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
 
-.blog-banner {
+      &:hover {
+        background-color: var(--primary-color-dark);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+      }
+
+      mat-icon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  ::ng-deep mat-chip[color="primary"] {
+    background-color: var(--primary-color);
+    color: var(--text-on-primary);
+  }
+
+  ::ng-deep mat-chip[color="warn"] {
+    background-color: var(--warn-color);
+    color: var(--text-on-warn);
+  }
+
+  .mat-table {
     width: 100%;
-    border-radius: 12px;
-    margin: 20px 0;
-    object-fit: cover;
-}
-
-.blog-content {
-    font-size: 18px;
-    line-height: 1.7;
-    color: #333;
-    margin-bottom: 30px;
-}
-
-.blog-tags {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.tag {
-    background-color: #eef6f9;
-    color: #007BFF;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 12px;
-}
-
-.blog-actions {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.blog-actions button {
-    background: none;
-    border: none;
-    color: #007BFF;
-    cursor: pointer;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    transition: all 0.3s;
-}
-
-.blog-actions button:hover {
-    background-color: #f0f8ff;
-}
-
-.comments-section {
-    margin-top: 40px;
-}
-
-.comment-card {
-    padding: 10px 0;
-    border-bottom: 1px solid #f0f0f0;
-    font-size: 14px;
-}
-
-input {
-    width: calc(100% - 20px);
-    padding: 10px;
     border-radius: 8px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+
+    .mat-header-cell {
+      font-weight: 600;
+      color: var(--primary-color-dark);
+      background-color: var(--primary-color-light);
+    }
+
+    .mat-cell {
+      padding: 12px 16px;
+    }
+
+    .mat-row:hover {
+      background-color: var(--primary-color-light);
+    }
+  }
+
+  .paginator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    button {
+      padding: 0.5rem 1rem;
+      min-width: 5rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 500;
+
+      &:not(:disabled):hover {
+        background-color: var(--primary-color-light);
+        color: var(--primary-color-dark);
+        border-color: var(--primary-color);
+      }
+    }
+
+    span {
+      font-weight: 500;
+      color: var(--primary-color-dark);
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  .blogs-container {
+    padding: 1rem;
+
+    .toolbar {
+      flex-direction: column;
+      align-items: stretch;
+
+      mat-form-field {
+        width: 100%;
+      }
+    }
+  }
 }

@@ -100,6 +100,165 @@
   border-bottom-color: transparent;
 }
 
+.blog-attachments {
+    margin: 2.5rem 0;
+    padding: 1.5rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+
+    .attachments-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        &::before {
+            content: "📎";
+            font-size: 1.1em;
+        }
+    }
+
+    .attachments-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .attachment-card {
+        background: #f8fafc;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.25s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .file-preview {
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        position: relative;
+        overflow: hidden;
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .preview-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .file-icon {
+            width: 64px;
+            height: 64px;
+            opacity: 0.9;
+
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+
+            &.pdf-icon {
+                color: #e53e3e;
+            }
+
+            &.excel-icon {
+                color: #1d6f42;
+            }
+
+            &.word-icon {
+                color: #2b579a;
+            }
+
+            &.default-icon {
+                color: #4a5568;
+            }
+        }
+    }
+
+    .file-info {
+        padding: 1rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .file-name {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #1a202c;
+        margin-bottom: 0.75rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .file-meta {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .file-type {
+        font-size: 0.7rem;
+        color: #718096;
+        background: #edf2f7;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        text-transform: uppercase;
+    }
+
+    .download-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.8rem;
+        color: #4299e1;
+        text-decoration: none;
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        background: rgba(66, 153, 225, 0.1);
+        font-weight: 500;
+
+        &:hover {
+            background: rgba(66, 153, 225, 0.2);
+            color: #3182ce;
+        }
+
+        .download-icon {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .attachments-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+    }
+}
+
 /* Tags Section */
 .blog-tags {
   display: flex;
