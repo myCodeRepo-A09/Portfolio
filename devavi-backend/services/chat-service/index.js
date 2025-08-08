@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -22,11 +21,20 @@ app.use("/api/chats", chatRoutes);
 app.use("/upload", uploadRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 connectDB();
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!", err.message);
+});
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "client/build")));
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
 io.on("connection", (socket) => {
+  console.log("New client connected");
   chatSocketHandler(socket, io);
 });
 
-app.listen(4000, () => console.log("Backend on 4000"));
+server.listen(4000, () => console.log("Backend on 4000"));

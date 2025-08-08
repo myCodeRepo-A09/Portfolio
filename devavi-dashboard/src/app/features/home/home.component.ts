@@ -12,6 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AuthService } from '../../core/services/auth.service';
+import { environment } from '../../core/environments/environment';
 //import { ProjectsCarouselComponent } from '../../shared/components/projects-carousel/projects-carousel.component';
 @Component({
   selector: 'app-home',
@@ -38,6 +39,8 @@ import { AuthService } from '../../core/services/auth.service';
   ],
 })
 export class HomeComponent implements OnInit {
+  //env
+  learnWithMeSection: boolean = environment.learnWithMeSection;
   isUserLoggedIn: boolean = false;
   summary: DashboardSummary = {
     blogs: [],

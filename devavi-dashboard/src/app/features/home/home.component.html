@@ -150,7 +150,8 @@
         </div>
 
         <div class="section-footer">
-            <button class="view-all-button">
+
+            <button [routerLink]="['/blogs']" class="view-all-button">
                 View All Blogs
             </button>
         </div>
@@ -216,15 +217,15 @@
             </div>
             }
         </div>
-        <div class="section-footer">
+        <!-- <div class="section-footer">
             <button class="view-all-button">
                 View All Projects
             </button>
-        </div>
+        </div> -->
     </section>
 
     <!-- Learn With Me Section -->
-    <section id="learn" class="content-section learn-section">
+    <section *ngIf="learnWithMeSection" id="learn" class="content-section learn-section">
         <div class="section-header">
             <h2>🎓 Learn With Me</h2>
             <div class="section-divider"></div>

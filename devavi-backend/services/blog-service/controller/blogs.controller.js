@@ -1,24 +1,29 @@
 const blogModel = require("../models/blog.model");
 const redis = require("../../../shared/redis/redisClient");
+
 exports.getBlogById = async function (req, res) {
   const blogId = req.params.id;
   try {
+    //check if blog id is present
     if (!blogId) {
       res.status(400).json({
         success: false,
         message: "Blog Id is not valid",
       });
     }
+
+    //Find blog from databse
     const blog = await blogModel.findOne({ _id: blogId });
+
+    //If blog is not available inside databsed send error
     if (!blog) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "Blog not found",
       });
     }
-    // blog.views.user.push("userIdFromAuth");
-    // blog.views.count = (blog.likes.count || 0) + 1;
-    // await blog.save();
+
+    //send blog data to client
     res.status(200).json({
       success: true,
       data: blog,
@@ -35,7 +40,10 @@ exports.getBlogById = async function (req, res) {
 };
 exports.getAllBlogs = async function (req, res) {
   try {
+    //Get all blogs
     const blogs = await blogModel.find().sort({ createdAt: -1 });
+
+    //send response to client
     res.status(200).json({
       success: true,
       data: blogs,
@@ -55,13 +63,17 @@ exports.createBlog = async function (req, res) {
     const blogData = req.body;
     const contentSize = Buffer.byteLength(blogData.content || "", "utf-8");
 
+    //Max mongodb document size threshold
     const MAX_CONTENT_SIZE = 17_825_792; // 17 MB (same as the error threshold)
 
+    //If content is greater than document store size throw error
     if (contentSize > MAX_CONTENT_SIZE) {
       return res.status(400).json({
         error: "Blog content is too large. Max allowed size is 17MB.",
       });
     }
+
+    //create blog model based on payload
     blog = new blogModel({
       title: blogData.title,
       readTime: blogData.readTime,
@@ -79,11 +91,13 @@ exports.createBlog = async function (req, res) {
       attachments: blogData.attachments,
     });
 
+    //Save as document
     const savedBlog = await blog.save();
     if (await redis.get("dashboardSummary")) {
       await redis.del("dashboardSummary");
     }
 
+    //Resonse to client with blog data
     res.status(201).json({ success: true, data: savedBlog });
   } catch (error) {
     console.error(error);
@@ -97,12 +111,18 @@ exports.updateBlog = async function (req, res) {
     const blogId = req.params.id;
     const blogData = req.body;
     const contentSize = Buffer.byteLength(blogData.content || "", "utf-8");
+
+    //Max mongodb document size threshold
     const MAX_CONTENT_SIZE = 17_825_792; // 17 MB (same as the error threshold)
+
+    //If content is greater than document store size throw error
     if (contentSize > MAX_CONTENT_SIZE) {
       return res.status(400).json({
         error: "Blog content is too large. Max allowed size is 17MB.",
       });
     }
+
+    //Find Blog and Update blog model
     const updatedBlog = await blogModel.findByIdAndUpdate(
       blogId,
       {
@@ -123,11 +143,15 @@ exports.updateBlog = async function (req, res) {
       },
       { new: true }
     );
+
+    //if blog is not available inside database
     if (!updatedBlog) {
       return res
         .status(404)
         .json({ success: false, message: "Blog not found" });
     }
+
+    //refresh dashboard summary data
     if (await redis.get("dashboardSummary")) {
       await redis.del("dashboardSummary");
     }
@@ -139,10 +163,18 @@ exports.updateBlog = async function (req, res) {
       .json({ success: false, message: "Failed to update blog", error });
   }
 };
+
 exports.deleteBlog = async function (req, res) {
   try {
     const blogId = req.params.id;
+    if (!blogId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Blog Id is not valid" });
+    }
     const deletedBlog = await blogModel.findByIdAndDelete(blogId);
+
+    //Send failure response if blog is not inside database
     if (!deletedBlog) {
       return res
         .status(404)
@@ -189,7 +221,6 @@ exports.likeBlog = async function (req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 exports.commentBlog = async function (req, res) {
   try {
     const { user, comment } = req.body;

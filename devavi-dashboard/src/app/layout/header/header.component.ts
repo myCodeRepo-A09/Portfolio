@@ -21,6 +21,7 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   isUserLoggedIn: boolean = false;
+  dropdownOpen = false;
   isMenuOpen = false;
   isScrolled = false;
   searchQuery = '';
@@ -52,7 +53,9 @@ export class HeaderComponent implements OnInit {
       this.isUserLoggedIn = isLoggedIn;
     });
   }
-
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
     document.body.style.overflow = this.isMenuOpen ? 'hidden' : '';
@@ -67,6 +70,7 @@ export class HeaderComponent implements OnInit {
     document.body.style.overflow = '';
   }
   logout() {
+    this.dropdownOpen = false;
     this.authService.logout();
     this.authService.setLoggedIn(false);
     this.isUserLoggedIn = false;

@@ -37,18 +37,24 @@ export class AuthService {
   }
   isAuthenticated(): boolean {
     // Implement your logic to check if the user is authenticated
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem('accessToken');
   }
   setLoggedIn(value: boolean) {
     this.loggedInSubject.next(value);
   }
   logout() {
     // Implement your logout logic
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
   }
   getCurrentUser() {
     // Implement your logic to get the current user
     return JSON.parse(localStorage.getItem('user') || '{}');
+  }
+  getCurrentUserId(): string {
+    const user = this.getCurrentUser();
+    return user ? user.userId || user.id || '' : '';
   }
   setCurrentUser(user: any) {
     // Implement your logic to set the current user

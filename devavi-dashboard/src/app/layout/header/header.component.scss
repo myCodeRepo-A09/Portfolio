@@ -28,6 +28,7 @@
    // gap: 2.5rem; // Increased gap between elements
   }
 
+
   .logo {
     font-size: 2rem; // Slightly larger
     font-weight: 700;
@@ -107,18 +108,33 @@
       font-size: 1.1rem;
     }
   }
+   .user-profile {
 
-  // Mobile styles
-  @media (max-width: 1200px) {
-    .container {
-      padding: 0 2.5rem;
-      gap: 2rem;
-    }
+  gap: 20px; // Space between icon and text
+  cursor: pointer;
 
-    .main-nav .nav-list {
-      gap: 2rem;
-    }
+  .material-icons {
+    font-size: 24px; // Adjust if needed
+    vertical-align: middle;
   }
+
+  .logout-text {
+    font-size: 16px;
+  }
+}
+
+
+  // // Mobile styles
+  // @media (max-width: 1200px) {
+  //   .container {
+  //     padding: 0 2.5rem;
+  //     gap: 2rem;
+  //   }
+
+  //   .main-nav .nav-list {
+  //     gap: 2rem;
+  //   }
+  // }
 
   @media (max-width: 992px) {
     .container {

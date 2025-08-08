@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../environments/environment';
+import { AnimationStyleMetadata } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,35 @@ export class ChatSocketService {
     });
   }
 
+  getAllUsers(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.socket.emit('get-all-users', (response: any) => {
+        console.log('Received all users:', response);
+        if (response.error) {
+          reject(response.error);
+        }
+        resolve(response.users);
+      });
+    });
+  }
+
+  onAllUsers(callback: (msg: any) => void) {
+    this.socket.on('all-users', callback);
+  }
+  userFound(callback: (msg: any) => void) {
+    this.socket.on('user-found', callback);
+  }
+
+  getUserById(userId: string | any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.socket.emit('get-user-by-id', userId, (response: any) => {
+        if (response.error) {
+          reject(response.error);
+        }
+        resolve(response.user);
+      });
+    });
+  }
   registerUser(userId: string) {
     this.socket.emit('register-user', userId);
   }
@@ -63,5 +93,27 @@ export class ChatSocketService {
         resolve(response.fileUrl);
       });
     });
+  }
+
+  getUserMessagesById(
+    userId1: string | undefined,
+    userId2: string
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.socket.emit(
+        'get-user-messages',
+        { userId1, userId2 },
+        (response: any) => {
+          if (response.error) {
+            reject(response.error);
+          }
+          resolve(response.user);
+        }
+      );
+    });
+  }
+
+  userMessages(callback: (msg: any) => void) {
+    this.socket.on('user-messages', callback);
   }
 }

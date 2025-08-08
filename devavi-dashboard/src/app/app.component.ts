@@ -5,11 +5,13 @@ import { HeaderComponent } from './layout/header/header.component';
 import { RouterModule } from '@angular/router';
 import { SnackbarComponent } from './shared/components/snackbar/snackbar.component';
 import { FloatingChatComponent } from './shared/components/floating-chat/floating-chat.component';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
+    CommonModule,
     HeaderComponent,
     RouterModule,
     SnackbarComponent,
@@ -20,4 +22,9 @@ import { FloatingChatComponent } from './shared/components/floating-chat/floatin
 })
 export class AppComponent {
   title = 'devavi-dashboard';
+  showChatPopup = false;
+
+  toggleChat() {
+    this.showChatPopup = !this.showChatPopup;
+  }
 }

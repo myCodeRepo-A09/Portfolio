@@ -56,7 +56,7 @@ exports.login = async (req, res) => {
     res.status(200).json({
       accessToken: accessToken,
       refreshToken: refreshToken,
-      user: { email: user.email, name: user.name },
+      user: { userId: user._id, email: user.email, name: user.name },
     });
   } catch (err) {
     return res

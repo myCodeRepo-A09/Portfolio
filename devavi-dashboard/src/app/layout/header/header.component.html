@@ -22,12 +22,18 @@
         <nav class="main-nav" [class.active]="isMenuOpen">
             <ul class="nav-list">
                 <li class="nav-item">
+
+                    <a routerLink="/" class="nav-link" (click)="closeMenu()">
+                        Dashboard
+                    </a>
+
                     <a routerLink="/about" class="nav-link" (click)="closeMenu()">
                         About Dev-Avi
                     </a>
                     <a routerLink="/blogs" class="nav-link" (click)="closeMenu()">
                         Blogs
                     </a>
+                    <!--                     
                     <a routerLink="/projects" class="nav-link" (click)="closeMenu()">
                         Projects
                     </a>
@@ -36,13 +42,17 @@
                     </a>
                     <a routerLink="/learn" class="nav-link" (click)="closeMenu()">
                         Learn With Me
-                    </a>
+                    </a> -->
+
                     <a *ngIf='!isUserLoggedIn' routerLink="/login" class="nav-link" (click)="closeMenu()">
                         Login
                     </a>
-                    <a *ngIf='isUserLoggedIn' class="nav-link" (click)="logout()">
-                        Logout
+                    <a *ngIf='isUserLoggedIn' class="nav-link user-profile" (click)="logout()">
+                        <span class="material-icons">account_circle</span>
+                        <span class="logout-text">Logout</span>
                     </a>
+
+
                 </li>
             </ul>
         </nav>

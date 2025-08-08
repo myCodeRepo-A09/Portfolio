@@ -1,7 +1,17 @@
-<div class="floating-chat">
-    <div class="chat-header">DevAvi Chat 💬</div>
+<!-- Circular Chat Toggle Button -->
+<button *ngIf="!showChatPopup" class="chat-toggle-btn" (click)="toggleChat()">
+    💬<span *ngIf="showMessageFlag" class="badge">++</span>
+</button>
+
+<div *ngIf="showChatPopup" class="floating-chat">
+
+    <div class="chat-header">
+        DevAvi Chat 💬
+        <button class="close-btn" (click)="toggleChat()">✖</button>
+    </div>
 
     <div class="chat-body">
+        <!-- Sidebar with search and user list -->
         <div class="left-sidebar">
             <input type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Search..." />
 
@@ -9,49 +19,74 @@
                 <div *ngFor="let user of filteredUsers" class="user" [class.active]="user.name === activeUser.name"
                     (click)="selectUser(user)">
                     <span class="status" [class.online]="user.online"></span>
-                    {{ user.name }}
+
+                    <!-- 👇 Add user icon -->
+                    <span class="user-icon">👤</span>
+
+                    {{ user._id == currentUserId ? 'Self' : user.name }}
+
                     <span *ngIf="user.unreadCount > 0" class="badge">{{ user.unreadCount }}</span>
                 </div>
+
             </div>
         </div>
 
+        <!-- Chat content -->
         <div class="right-chat">
             <div class="chat-with">Chat with {{ activeUser.name }}</div>
 
-            <div class="chat-history" #chatBox (scroll)="loadMoreMessages()">
-                <div *ngFor="let msg of messages" class="msg" [class.me]="msg.from === 'Me'">
-                    <div class="meta">{{ msg.from }} • {{ msg.time }}</div>
-                    <div class="text">{{ msg.text }}</div>
+
+            <div class="chat-history" #chatBox (onscroll)="loadMoreMessages()">
+                <div *ngFor="let msg of messages" class="msg" [class.me]="msg.sender === currentUserId">
+                    <!-- <pre>{{msg|json}}</pre>
+                    <pre>{{messages|json}}</pre> -->
+                    <div class="meta">
+                        {{ msg.sender === currentUserId ? 'You' : getUserNameById(msg.sender) }} •
+                        {{ msg.createdAt | date: 'short' }}
+                    </div>
+
+                    <div *ngIf="msg.messageType !== 'file'" class="text">{{ msg.content }}</div>
+
+                    <div *ngIf="msg.messageType === 'file' && msg.fileMeta">
+                        <a [href]="msg.fileMeta.path" target="_blank">📎 {{ msg.fileMeta.originalName }}</a>
+                    </div>
+
+                    <div *ngIf="msg.sender === currentUserId">
+                        <span class="read-status">
+                            {{ msg.read ? '👀 Read' : '✔️ Sent' }}
+                        </span>
+                    </div>
                 </div>
+
+
             </div>
 
+
+            <!-- File preview -->
             <div class="file-preview" *ngIf="selectedFiles.length > 0">
                 <div *ngFor="let file of selectedFiles">
                     📁 {{ file.name }}
                 </div>
             </div>
 
-            <div *ngIf="msg.messageType === 'file'">
-                <a [href]="msg.fileMeta.path" target="_blank">
-                    📎 {{ msg.fileMeta.originalName }}
-                </a>
-            </div>
-
-            <div *ngIf="msg.sender === currentUserId">
-                <span class="read-status">
-                    {{ msg.read ? '👀 Read' : '✔️ Sent' }}
-                </span>
-            </div>
-
-
-
+            <!-- Chat input -->
+            <!-- Chat input -->
             <div class="chat-input">
-                <input type="text" [(ngModel)]="messageText" placeholder="Type a message..." />
-                <button (click)="showEmojiPicker = !showEmojiPicker">😊</button>
-                <input type="file" (change)="handleFileChange($event)" multiple />
+                <textarea [(ngModel)]="messageText" placeholder="Type a message..." (keydown.enter)="onEnter($event)"
+                    rows="1"></textarea>
+
+                <div class="file-input-wrapper">
+                    <input type="file" (change)="handleFileChange($event)" multiple />
+                    <label class="file-input-label">📎</label>
+                </div>
+
                 <button (click)="sendMessage()">Send</button>
             </div>
-            <input type="file" (change)="onFileSelected($event)" />
+
+
+            <!-- <input type="file" (change)="onFileSelected($event)" /> -->
+
+            <!-- Emoji picker -->
             <emoji-mart *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"></emoji-mart>
         </div>
     </div>

@@ -12,7 +12,7 @@
         <span class="author-name">Author: {{ blog.author_id }}</span>
     </div>
 
-    <img *ngIf="blog.images?.length" [src]="url+blog.images[0]" class="blog-banner" />
+    <img *ngIf="blog.images?.length" [src]="url+blog.images[0]" alt="Image" class="blog-banner" />
 
     <p class="blog-content" [innerHTML]="blog.content"></p>
 

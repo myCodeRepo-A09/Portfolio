@@ -18,7 +18,7 @@ exports.sendMessage = async (req, res) => {
 
     res.status(201).json({ message });
   } catch (error) {
-    console.error("Send Message Error:", error);
+    console.error("Send Message Error:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -41,7 +41,7 @@ exports.getMessages = async (req, res) => {
 
     res.json({ messages: messages.reverse() });
   } catch (error) {
-    console.error("Get Messages Error:", error);
+    console.error("Get Messages Error:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -65,7 +65,7 @@ exports.markAsRead = async (req, res) => {
 
     res.json({ message: "Read receipt updated" });
   } catch (error) {
-    console.error("Mark Read Error:", error);
+    console.error("Mark Read Error:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

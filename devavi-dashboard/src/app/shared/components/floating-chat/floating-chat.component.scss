@@ -1,170 +1,559 @@
+// Updated variables with wider chat
+$primary-color: #4361ee;
+$secondary-color: #3f37c9;
+$accent-color: #4cc9f0;
+$dark-color: #1a1a2e;
+$light-color: #f8f9fa;
+$success-color: #4caf50;
+$warning-color: #ff9800;
+$danger-color: #f44336;
+$border-radius: 12px;
+$box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+$transition-speed: 0.25s;
+$chat-width: 650px; // Increased from 380px
+$chat-height: 600px;
+$sidebar-width: 140px; // Increased from 120px
+
+// Mixins for reusable styles
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Base styles for performance
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+// Chat toggle button with smooth animation
+.chat-toggle-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: $primary-color;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  @include flex-center;
+  box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  z-index: 1000;
+  transition: all $transition-speed ease;
+  will-change: transform;
+  
+  &:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 16px rgba($primary-color, 0.4);
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
+  }
+}
+
+// Floating chat container with optimized animations
 .floating-chat {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 700px;
-  height: 500px;
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  bottom: 24px;
+  right: 24px;
+  width: $chat-width;
+  height: $chat-height;
+  max-height: 80vh;
+  background: white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  font-family: "Segoe UI", sans-serif;
-  z-index: 1000;
+  z-index: 1001;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: fadeInUp $transition-speed forwards;
+  will-change: transform, opacity;
+  
+  @keyframes fadeInUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
 
-  .chat-header {
-    background: #3f51b5;
+// Chat header with gradient
+.chat-header {
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  color: white;
+  padding: 16px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  .close-btn {
+    background: transparent;
+    border: none;
     color: white;
-    padding: 1rem;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  .chat-body {
-    display: flex;
-    flex: 1;
-  }
-
-  .left-sidebar {
-    width: 200px;
-    border-right: 1px solid #eee;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-
-    input {
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    @include flex-center;
+    transition: background $transition-speed;
+    
+    &:hover {
+      background: rgba(white, 0.2);
     }
-
-    .user-list {
-      flex: 1;
-      overflow-y: auto;
-    }
-
-    .user {
-      padding: 0.5rem;
-      border-radius: 6px;
-      margin: 0.2rem 0;
-      cursor: pointer;
-      position: relative;
-
-      &:hover {
-        background: #f0f0f0;
-      }
-
-      &.active {
-        background: #e5e5ff;
-        font-weight: bold;
-      }
-
-      .status {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        display: inline-block;
-        margin-right: 8px;
-        background: gray;
-
-        &.online {
-          background: green;
-        }
-      }
-
-      .badge {
-        background: red;
-        color: white;
-        font-size: 10px;
-        border-radius: 50%;
-        padding: 2px 6px;
-        position: absolute;
-        right: 5px;
-        top: 5px;
-      }
+    
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(white, 0.3);
     }
   }
+}
 
-  .right-chat {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 0.5rem;
+// Chat body with optimized layout
+.chat-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  background: $light-color;
+}
 
-    .chat-with {
+// Left sidebar with search and user list
+.left-sidebar {
+  width: $sidebar-width;
+  background: white;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width $transition-speed;
+  
+  input {
+    padding: 12px 16px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    font-size: 14px;
+    background: transparent;
+    
+    &:focus {
+      outline: none;
+      border-bottom-color: $primary-color;
+    }
+    
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+// User list with optimized scrolling
+.user-list {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba($primary-color, 0.3) transparent;
+  
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($primary-color, 0.3);
+    border-radius: 2px;
+  }
+  
+  .user {
+    padding: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    position: relative;
+    transition: background $transition-speed;
+    @include text-ellipsis;
+    
+    &:hover {
+      background: rgba($primary-color, 0.05);
+    }
+    
+    &.active {
+      background: rgba($primary-color, 0.1);
       font-weight: 600;
-      margin-bottom: 0.5rem;
     }
-
-    .chat-history {
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-
-    .msg {
-      max-width: 60%;
-      background: #eee;
-      border-radius: 8px;
-      padding: 0.5rem;
-      align-self: flex-start;
-
-      &.me {
-        align-self: flex-end;
-        background: #d4f1c5;
+    
+    .status {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ccc;
+      margin-right: 6px;
+      
+      &.online {
+        background: $success-color;
       }
+    }
+    
+    .badge {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: $danger-color;
+      color: white;
+      border-radius: 10px;
+      font-size: 10px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      @include flex-center;
+      font-weight: bold;
+    }
+  }
+}
 
+// Right chat area
+.right-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-with {
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+// Chat history with optimized scrolling
+.chat-history {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba($primary-color, 0.3) transparent;
+  background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path fill="rgba(0,0,0,0.03)" d="M30 10L10 30v40l20 20h40l20-20V30L70 10H30z"/></svg>');
+  background-size: 20px;
+  
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($primary-color, 0.3);
+    border-radius: 2px;
+  }
+  
+  .msg {
+    margin-bottom: 16px;
+    max-width: 85%;
+    padding: 10px 16px;
+    border-radius: $border-radius;
+    background: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    position: relative;
+    word-wrap: break-word;
+    animation: fadeIn $transition-speed;
+    will-change: transform, opacity;
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    &.me {
+      margin-left: auto;
+      background: $primary-color;
+      color: white;
+      
       .meta {
-        font-size: 0.7rem;
-        color: #666;
+        color: rgba(white, 0.8);
       }
-
-      .text {
-        margin-top: 2px;
+      
+      .read-status {
+        color: rgba(white, 0.7);
       }
     }
-
-    .file-preview {
-      font-size: 0.85rem;
-      color: #444;
-      padding: 0.5rem;
-      background: #f8f9fa;
-      border-radius: 6px;
-      margin-bottom: 0.5rem;
+    
+    .meta {
+      font-size: 10px;
+      color: rgba(0, 0, 0, 0.5);
+      margin-bottom: 4px;
     }
-
-    .chat-input {
-      display: flex;
-      gap: 0.3rem;
+    
+    .text {
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    
+    .read-status {
+      font-size: 10px;
+      text-align: right;
+      margin-top: 4px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
       align-items: center;
-
-      input[type='text'] {
-        flex: 1;
-        padding: 0.5rem;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-      }
-
-      input[type='file'] {
-        width: auto;
-      }
-
-      button {
-        background: #3f51b5;
-        color: white;
-        padding: 0.5rem 0.8rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-
-        &:hover {
-          background: #2c3e97;
-        }
+      gap: 4px;
+      
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
+}
+
+// File preview area
+.file-preview {
+  padding: 10px 20px;
+  background: rgba($primary-color, 0.05);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 13px;
+  
+  div {
+    padding: 4px 0;
+    @include text-ellipsis;
+  }
+}
+
+// Chat input area with optimized layout
+// Add this to your chat-input section (around line 370 in the previous code)
+.chat-input {
+  display: flex;
+  padding: 14px 20px;
+  background: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  gap: 8px;
+  position: relative; // Add this for positioning
+
+  // Add these new styles for the file input
+  .file-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    
+    input[type="file"] {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 2;
+      
+      &:hover + .file-input-label {
+        background: $secondary-color;
+      }
+      
+      &:focus + .file-input-label {
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
+      }
+    }
+    
+    .file-input-label {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: $primary-color;
+      color: white;
+      @include flex-center;
+      cursor: pointer;
+      transition: all $transition-speed;
+      font-size: 18px;
+      
+      &:hover {
+        background: $secondary-color;
+        transform: scale(1.05);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  // Rest of your existing chat-input styles...
+  input[type="text"] {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    font-size: 14px;
+    transition: border $transition-speed;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+  }
+
+  button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: $primary-color;
+    color: white;
+    cursor: pointer;
+    @include flex-center;
+    transition: all $transition-speed;
+    
+    &:hover {
+      background: $secondary-color;
+      transform: scale(1.05);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+    
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
+    }
+    
+    &:last-child {
+      background: $success-color;
+      
+      &:hover {
+        background: darken($success-color, 10%);
+      }
+    }
+  }
+}
+
+.chat-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.chat-toggle-btn .badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 50%;
+}
+
+.highlighted {
+  animation: pulse 1.2s infinite;
+  background-color: #ff4081 !important; /* optional: different color */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(255, 64, 129, 0.7);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 64, 129, 0.9);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(255, 64, 129, 0.7);
+  }
+}
+
+
+.chat-input textarea {
+  width: 100%;
+  resize: none;
+  overflow-y: auto;
+  border-radius: 6px;
+  padding: 8px;
+  min-height: 40px;
+  max-height: 120px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+// Emoji picker styling
+emoji-mart {
+  position: absolute;
+  bottom: 70px;
+  right: 20px;
+  z-index: 1002;
+  animation: fadeIn $transition-speed;
+}
+
+// Responsive adjustments
+@media (max-width: 500px) {
+  .floating-chat {
+    width: 100vw;
+    height: 100vh;
+    max-height: none;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+  }
+  
+  .left-sidebar {
+    width: 120px;
+  }
+}
+
+// Performance optimizations
+.high-performance {
+  will-change: transform, opacity;
+  contain: content;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+// Accessibility improvements
+[aria-hidden="true"] {
+  display: none;
 }
