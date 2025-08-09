@@ -1,96 +1,76 @@
-<!-- home.component.html -->
 <main class="home-container">
+    <!-- Animated background elements -->
+    <div class="bg-elements">
+        <div class="bg-circle circle-1"></div>
+        <div class="bg-circle circle-2"></div>
+        <div class="bg-circle circle-3"></div>
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+    </div>
 
     <!-- About Section -->
     <section id="about" class="content-section about-section">
         <div class="section-header">
-            <!-- Optional decorative corners -->
             <div class="decorative-corner decorative-corner-tl"></div>
             <div class="decorative-corner decorative-corner-tr"></div>
-            <h2 class="gradient-text">👨‍💻
-
-                <span class="header-icon"></span> <!-- or use an icon font -->
+            <h2 class="gradient-text">
+                <span class="header-icon">👨‍💻</span>
                 About DevAvi
             </h2>
-
             <div class="section-divider"></div>
         </div>
 
-
         <div class="about-content">
             <div class="profile-container floating-element">
-
-                <img src="assets/images/profile.jpg" alt="Avi's Profile" class="profile-image">
-                <!-- <div class="profile-decorator"></div> -->
+                <div class="profile-image-container">
+                    <img src="assets/images/profile.jpg" alt="Avi's Profile" class="profile-image">
+                    <div class="profile-image-border"></div>
+                </div>
                 <h3 class="fancy-name">Avinash Andhale</h3>
                 <div class="position-tag">
-                    <!-- <span>Software Specialist</span> -->
                     <span class="employer">
                         <img src="assets/icons/Dassault.svg" alt="Dassault Logo" />
-
                     </span>
                 </div>
-
                 <div class="position-tag">
-                    <!-- <span>Full Stack Web Developer</span> -->
                     <span class="employer">
                         <img src="assets/icons/tata.png" alt="TCS Logo" />
-
                     </span>
                 </div>
-
-
-                <!-- With highlight animation -->
-                <!-- <div class="position-tag highlight">
-                    <span>Open to Work</span>
-                </div> -->
-
                 <div class="experience-chip">
                     <span class="chip-icon">⭐</span>
                     Turning Ideas Into Web Reality.
                 </div>
-
                 <p class="bio" appTypewriter
                     [text]="'Results-driven Full Stack Web Developer with 4 years of experience specializing in JavaScript, Angular, Node.js, and MySQL. Expertise in developing scalable web applications, enhancing user experiences, and ensuring robust code quality with testing frameworks like Cafet ODT, Jasmine, and Karma. Proficient in Agile methodology, microservices architecture, and cloud deployment.'"
                     [speed]="30" [delay]="1000">
                 </p>
-
             </div>
 
             <div class="about-info">
-
-
                 <div class="skills-section">
                     <h4>Technical Skills</h4>
                     <app-skills-chart [skills]="[
-    {name: 'Javascript', level: 80},
-     {name: 'TypeScript', level: 70},
-    {name: 'Angular', level: 75},
-    {name: 'Node.js', level: 75},
-    {name: 'MySQL', level: 60},
-    {name: 'Git/Docker', level: 60},
-     {name: 'Jasmine/Karma', level: 60}
-  ]"></app-skills-chart>
+                        {name: 'Javascript', level: 80},
+                        {name: 'TypeScript', level: 70},
+                        {name: 'Angular', level: 75},
+                        {name: 'Node.js', level: 75},
+                        {name: 'MySQL', level: 60},
+                        {name: 'Git/Docker', level: 60},
+                        {name: 'Jasmine/Karma', level: 60}
+                    ]"></app-skills-chart>
                 </div>
 
-
                 <div class="action-buttons">
-                    <!-- Resume -->
                     <a href="/assets/resume.pdf" class="resume-button" download title="Resume">
                         <img src="assets/icons/PDF_file_icon.svg" alt="Resume" />
                     </a>
-
-                    <!-- Phone -->
                     <a href="tel:+918552980643" class="contact-button" title="Phone">
                         <img src="assets/icons/phone.png" alt="Phone" />
                     </a>
-
-                    <!-- Email -->
                     <a href="mailto:aaaviandhale@gmail.com" class="contact-button" title="Email">
                         <img src="assets/icons/Mail.svg" alt="Email" />
                     </a>
-
-                    <!-- LinkedIn -->
                     <a href="https://www.linkedin.com/in/avinash-andhale-22385193/" class="contact-button"
                         target="_blank" title="LinkedIn">
                         <img src="assets/icons/LinkedIn.png" alt="LinkedIn" />
@@ -99,34 +79,25 @@
                         <img src="assets/icons/GitHub.png" alt="LinkedIn" />
                     </a>
                 </div>
-
-
             </div>
         </div>
     </section>
 
     <!-- Blogs Section -->
     <section id="blogs" class="content-section blogs-section">
-        <!-- <div class="section-header">
-            <h2>📝 Latest Blogs</h2>
-            <div class="section-divider"></div>
-        </div> -->
         <div class="section-header">
-            <!-- Optional decorative corners -->
             <div class="decorative-corner decorative-corner-tl"></div>
             <div class="decorative-corner decorative-corner-tr"></div>
             <h2 class="gradient-text">
-
-                <span class="header-icon"></span> <!-- or use an icon font -->
-                📝 Latest Blogs
+                <span class="header-icon">📝</span>
+                Latest Blogs
             </h2>
-
             <div class="section-divider"></div>
         </div>
 
         <div class="cards-container">
             @for (blog of this.summary.blogs; track blog._id) {
-            <div class="content-card" [@fadeInUp]>
+            <div class="content-card">
                 <div class="card-image">
                     <img [src]="url+blog.images[0]" [alt]="blog.title">
                     <div class="card-overlay"></div>
@@ -140,9 +111,12 @@
                     </div>
                     <h3>{{ blog.title }}</h3>
                     <p class="excerpt">{{ blog.excerpt }}</p>
-                    <button [routerLink]="['/blogs', blog._id]" class=" card-button">
+                    <button [routerLink]="['/blogs', blog._id]" class="card-button">
                         Read Article
-                        <svg><!-- Arrow icon --></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -150,9 +124,12 @@
         </div>
 
         <div class="section-footer">
-
             <button [routerLink]="['/blogs']" class="view-all-button">
                 View All Blogs
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
             </button>
         </div>
     </section>
@@ -160,13 +137,18 @@
     <!-- News Section -->
     <section id="news" class="content-section news-section">
         <div class="section-header">
-            <h2>📰 Tech News</h2>
+            <div class="decorative-corner decorative-corner-tl"></div>
+            <div class="decorative-corner decorative-corner-tr"></div>
+            <h2 class="gradient-text">
+                <span class="header-icon">📰</span>
+                Tech News
+            </h2>
             <div class="section-divider"></div>
         </div>
 
         <div class="news-container">
             @for (item of this.summary.news; track item._id) {
-            <div class="news-card" [@fadeInUp]>
+            <div class="news-card">
                 <div class="news-date">
                     <span class="day">{{ item.newsdatetime | date:'dd' }}</span>
                     <span class="month">{{ item.newsdatetime | date:'MMM' }}</span>
@@ -176,7 +158,11 @@
                     <p class="news-excerpt">{{ item.summary }}</p>
                     <a [href]="item.redirectLink" target="_blank" class="read-more-link">
                         Read on {{ item.redirectLink }}
-                        <svg><!-- External link icon --></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 20.1046 17.1046 21 16 21H5C3.89543 21 3 20.1046 3 19V8C3 6.89543 3.89543 6 5 6H11M15 3H21M21 3V9M21 3L10 14"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
                     </a>
                 </div>
             </div>
@@ -187,13 +173,18 @@
     <!-- Projects Section -->
     <section id="projects" class="content-section projects-section">
         <div class="section-header">
-            <h2>🚀 Featured Projects</h2>
+            <div class="decorative-corner decorative-corner-tl"></div>
+            <div class="decorative-corner decorative-corner-tr"></div>
+            <h2 class="gradient-text">
+                <span class="header-icon">🚀</span>
+                Featured Projects
+            </h2>
             <div class="section-divider"></div>
         </div>
 
-        <div class="projects-grid">
+        <div class="projects-container ">
             @for (project of this.summary.projects; track project._id) {
-            <div class="project-card" [@fadeInUp]>
+            <div class="project-card">
                 <div class="project-header">
                     <img [src]="project.imagesPath[0]" [alt]="project.title + ' logo'" class="project-logo">
                     <div class="project-meta">
@@ -217,54 +208,5 @@
             </div>
             }
         </div>
-        <!-- <div class="section-footer">
-            <button class="view-all-button">
-                View All Projects
-            </button>
-        </div> -->
     </section>
-
-    <!-- Learn With Me Section -->
-    <section *ngIf="learnWithMeSection" id="learn" class="content-section learn-section">
-        <div class="section-header">
-            <h2>🎓 Learn With Me</h2>
-            <div class="section-divider"></div>
-        </div>
-
-        <div class="learn-cards">
-            <div class="learning-path-card" [@fadeInUp]>
-                <div class="path-icon">
-                    <svg><!-- Book icon --></svg>
-                </div>
-                <h3>Tutorials</h3>
-                <p>Step-by-step guides on modern web development</p>
-                <button class="path-button">
-                    Start Learning
-                </button>
-            </div>
-
-            <div class="learning-path-card" [@fadeInUp]>
-                <div class="path-icon">
-                    <svg><!-- Video icon --></svg>
-                </div>
-                <h3>Video Courses</h3>
-                <p>In-depth video courses on Angular and Node.js</p>
-                <button class="path-button">
-                    Browse Courses
-                </button>
-            </div>
-
-            <div class="learning-path-card" [@fadeInUp]>
-                <div class="path-icon">
-                    <svg><!-- Code icon --></svg>
-                </div>
-                <h3>Code Challenges</h3>
-                <p>Weekly coding challenges to sharpen your skills</p>
-                <button class="path-button">
-                    Join Challenges
-                </button>
-            </div>
-        </div>
-    </section>
-
 </main>

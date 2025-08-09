@@ -22,7 +22,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class HeaderComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   dropdownOpen = false;
-  isMenuOpen = false;
+  isMenuOpen = true;
   isScrolled = false;
   searchQuery = '';
   menuItems = [
@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit {
   }
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
-    document.body.style.overflow = this.isMenuOpen ? 'hidden' : '';
+    //document.getElementsByClassName('main-nav')[0].style.display = 'none';
   }
 
   performSearch() {
@@ -67,7 +67,7 @@ export class HeaderComponent implements OnInit {
 
   closeMenu() {
     this.isMenuOpen = false;
-    document.body.style.overflow = '';
+    //document.body.style.overflow = '';
   }
   logout() {
     this.dropdownOpen = false;

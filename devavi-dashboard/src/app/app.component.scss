@@ -2,23 +2,23 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden;
+  
+   overflow-x: hidden !important; // ✅ hide horizontal scroll
+  overflow-y: hidden; // keep vertical control in child
 }
 
 app-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 64px;
-  z-index: 1000;
+  width: 100%;
+  overflow-x: hidden; // ✅ ensures header never pushes horizontal scroll
 }
 
 .content-scroll-area {
   margin-top: 64px; // Same height as header
   flex: 1;
-  overflow-y: auto;
+ overflow-y: auto;
+  overflow-x: hidden !important; // ✅ prevent horizontal scroll
   padding: 16px;
+  box-sizing: border-box; 
 }
 
 app-snackbar {

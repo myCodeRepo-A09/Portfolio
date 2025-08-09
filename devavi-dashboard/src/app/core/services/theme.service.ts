@@ -5,12 +5,18 @@ import { gsap } from 'gsap';
 type Theme = 'light' | 'dark' | 'professional' | 'creative' | 'terminal';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   private _currentTheme = signal<Theme>(this.getSystemPreference());
-  private _themes: Theme[] = ['light', 'dark', 'professional', 'creative', 'terminal'];
-  
+  private _themes: Theme[] = [
+    'light',
+    'dark',
+    'professional',
+    'creative',
+    'terminal',
+  ];
+
   currentTheme = this._currentTheme.asReadonly();
   availableThemes = this._themes;
 
@@ -22,7 +28,9 @@ export class ThemeService {
   }
 
   private getSystemPreference(): Theme {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return window.matchMedia('(prefers-color-scheme: creative)').matches
+      ? 'creative'
+      : 'light';
   }
 
   private applyTheme(theme: Theme) {
@@ -31,7 +39,8 @@ export class ThemeService {
   }
 
   private animateThemeChange() {
-    gsap.fromTo('body', 
+    gsap.fromTo(
+      'body',
       { opacity: 0.8, scale: 0.99 },
       { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }
     );

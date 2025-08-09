@@ -6,7 +6,11 @@
 body {
   background-color: #f9fafb;
   line-height: 1.6;
+  overflow-x: hidden; 
 }
+// html, body {
+//   overflow-x: hidden; // ✅ stops global horizontal scrollbar
+// }
 
 :root {
   // Primary Theme Colors

@@ -31,7 +31,11 @@
         <!-- Title Column -->
         <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sort('title')">Title</th>
-            <td mat-cell *matCellDef="let blog">{{ blog.title }}</td>
+            <td mat-cell *matCellDef="let blog">
+                <h3 class="blog-title">
+                    <a [routerLink]="['/blogs', blog._id]">{{ blog.title }}</a>
+                </h3>
+            </td>
         </ng-container>
 
         <!-- Author -->

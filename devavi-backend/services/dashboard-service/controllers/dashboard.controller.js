@@ -18,9 +18,9 @@ exports.getDashboardSummary = async (req, res) => {
         await Promise.all([
           Blog.find({ status: "published" })
             .sort({ published_at: -1 })
-            .limit(3)
+            .limit(4)
             .lean(),
-          Project.find().sort({ createdAt: -1 }).limit(3).lean(),
+          Project.find().sort({ createdAt: -1 }).limit(4).lean(),
           News.find().sort({ newsdatetime: -1 }).limit(3).lean(),
           Learn.find().sort({ createdAt: -1 }).limit(4).lean(),
         ]);

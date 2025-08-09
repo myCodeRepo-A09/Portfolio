@@ -3,9 +3,10 @@
 .search-bar {
   position: relative;
   width: 100%;
+  max-width: 450px; // ✅ keeps desktop style but allows shrinking
 
   input {
-    width: 450px;
+    width: 100%; // ✅ make width flexible
     padding: 0.8rem 3rem 0.8rem 1.5rem;
     border: none;
     border-radius: 50px;
@@ -53,5 +54,33 @@
 
   .clear-btn {
     right: 2.5rem;
+  }
+
+  /* =======================
+     Responsive Adjustments
+     ======================= */
+
+  /* Tablet screens and below */
+  @media (max-width: 992px) {
+    max-width: 350px; // ✅ reduce max width on tablets
+    input {
+      font-size: 0.95rem;
+      //padding: 0.7rem 2.5rem 0.7rem 1.2rem;
+    }
+  }
+
+  /* Mobile screens */
+  @media (max-width: 576px) {
+    max-width: 100%; // ✅ full width on mobile
+    input {
+      font-size: 0.9rem;
+     // padding: 0.6rem 2.2rem 0.6rem 1rem;
+    }
+    .clear-btn {
+      right: 2rem;
+    }
+    .search-btn {
+      right: 0.3rem;
+    }
   }
 }

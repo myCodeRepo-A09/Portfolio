@@ -20,8 +20,8 @@
 
         <!-- Navigation Menu -->
         <nav class="main-nav" [class.active]="isMenuOpen">
-            <ul class="nav-list">
-                <li class="nav-item">
+            <ul class="nav-list" [class.active]="isMenuOpen">
+                <li class="nav-item" [class.active]="isMenuOpen">
 
                     <a routerLink="/" class="nav-link" (click)="closeMenu()">
                         Dashboard
