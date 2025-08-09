@@ -22,7 +22,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class HeaderComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   dropdownOpen = false;
-  isMenuOpen = true;
+  isMenuOpen = false;
   isScrolled = false;
   searchQuery = '';
   menuItems = [

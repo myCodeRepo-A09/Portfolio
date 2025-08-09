@@ -14,3 +14,6 @@
 
 2025-07-30 07:26:50 [ERROR] Dashboard Fetch Error: 3C2E0000:error:0A000438:SSL routines:ssl3_read_bytes:tlsv1 alert internal error:c:\ws\deps\openssl\openssl\ssl\record\rec_layer_s3.c:1605:SSL alert number 80
 
+2025-08-09 22:55:10 [ERROR] Dashboard Fetch Error: Reached the max retries per request limit (which is 20). Refer to "maxRetriesPerRequest" option for details.
+2025-08-09 22:59:25 [ERROR] Dashboard Fetch Error: Reached the max retries per request limit (which is 20). Refer to "maxRetriesPerRequest" option for details.
+2025-08-09 23:00:50 [ERROR] Dashboard Fetch Error: Reached the max retries per request limit (which is 20). Refer to "maxRetriesPerRequest" option for details.
