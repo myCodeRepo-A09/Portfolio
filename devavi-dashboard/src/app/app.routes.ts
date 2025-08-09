@@ -1,14 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home.component';
-import { BlogsComponent } from './features/blogs/blogs.component';
-import { ProjectsComponent } from './features/projects/projects.component';
-import { NewsComponent } from './features/news/news.component';
-import { LearnWithMeComponent } from './features/learn-with-me/learn-with-me.component';
-import { ViewBlogComponent } from './features/blogs/view-blog/view-blog.component';
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
-import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
-import { AboutMeComponent } from './features/about-me/about-me.component';
+
 import { BlogResolver } from './core/guards/blog.resolver';
 
 export const routes: Routes = [
@@ -21,37 +12,72 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent,
+    loadComponent: () =>
+      import('../app/features/home/home.component').then(
+        (m) => m.HomeComponent
+      ),
   },
   {
     path: 'about',
-    component: AboutMeComponent,
+    loadComponent: () =>
+      import('../app/features/about-me/about-me.component').then(
+        (m) => m.AboutMeComponent
+      ),
   },
-  { path: 'blogs/:id', component: ViewBlogComponent },
-  { path: 'blogs', component: BlogsComponent },
+
+  {
+    path: 'blogs/:id',
+    loadComponent: () =>
+      import('../app/features/blogs/view-blog/view-blog.component').then(
+        (m) => m.ViewBlogComponent
+      ),
+  },
+  {
+    path: 'blogs',
+    loadComponent: () =>
+      import('../app/features/blogs/blogs.component').then(
+        (m) => m.BlogsComponent
+      ),
+  },
   {
     path: 'projects',
-    component: ProjectsComponent,
+    loadComponent: () =>
+      import('../app/features/projects/projects.component').then(
+        (m) => m.ProjectsComponent
+      ),
   },
   {
     path: 'news',
-    component: NewsComponent,
+    loadComponent: () =>
+      import('../app/features/news/news.component').then(
+        (m) => m.NewsComponent
+      ),
   },
   {
     path: 'learn',
-    component: LearnWithMeComponent,
+    loadComponent: () =>
+      import('../app/features/learn-with-me/learn-with-me.component').then(
+        (m) => m.LearnWithMeComponent
+      ),
   },
   {
     path: 'login',
-    component: LoginComponent,
+    loadComponent: () =>
+      import('../app/auth/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: 'signup',
-    component: SignupComponent,
+    loadComponent: () =>
+      import('../app/auth/signup/signup.component').then(
+        (m) => m.SignupComponent
+      ),
   },
   {
     path: 'forgot-password',
-    component: ForgotPasswordComponent,
+    loadComponent: () =>
+      import('../app/auth/forgot-password/forgot-password.component').then(
+        (m) => m.ForgotPasswordComponent
+      ),
   },
   {
     path: 'blogs/create',
