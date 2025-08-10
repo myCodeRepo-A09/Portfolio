@@ -8,11 +8,11 @@
     </div>
 
     <div class="blog-author-section">
-        <img src="assets/images/profile.jpg" alt="Author" class="author-avatar">
+        <img src="assets/images/profile.jpg" alt="Author" class="author-avatar" loading="lazy">
         <span class="author-name">Author: {{ blog.author_id }}</span>
     </div>
 
-    <img *ngIf="blog.images?.length" [src]="url+blog.images[0]" alt="Image" class="blog-banner" />
+    <img *ngIf="blog.images?.length" [src]="url+blog.images[0]" alt="Image" class="blog-banner" loading="lazy" />
 
     <p class="blog-content" [innerHTML]="blog.content"></p>
 
@@ -24,10 +24,14 @@
                 <div class="file-preview">
                     <ng-container [ngSwitch]="file.mimeType">
                         <!-- Images -->
-                        <img *ngSwitchCase="'image/png'" [src]="url + file.url" alt="Image" class="preview-image" />
-                        <img *ngSwitchCase="'image/jpeg'" [src]="url + file.url" alt="Image" class="preview-image" />
-                        <img *ngSwitchCase="'image/gif'" [src]="url + file.url" alt="Image" class="preview-image" />
-                        <img *ngSwitchCase="'image/webp'" [src]="url + file.url" alt="Image" class="preview-image" />
+                        <img *ngSwitchCase="'image/png'" [src]="url + file.url" alt="Image" class="preview-image"
+                            loading="lazy" />
+                        <img *ngSwitchCase="'image/jpeg'" [src]="url + file.url" alt="Image" class="preview-image"
+                            loading="lazy" />
+                        <img *ngSwitchCase="'image/gif'" [src]="url + file.url" alt="Image" class="preview-image"
+                            loading="lazy" />
+                        <img *ngSwitchCase="'image/webp'" [src]="url + file.url" alt="Image" class="preview-image"
+                            loading="lazy" />
 
                         <!-- Videos -->
                         <video *ngSwitchCase="'video/mp4'" [src]="url + file.url" controls

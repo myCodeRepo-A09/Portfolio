@@ -23,18 +23,18 @@
         <div class="about-content">
             <div class="profile-container floating-element">
                 <div class="profile-image-container">
-                    <img src="assets/images/profile.jpg" alt="Avi's Profile" class="profile-image">
+                    <img src="assets/images/profile.jpg" alt="Avi's Profile" class="profile-image" loading="lazy">
                     <div class="profile-image-border"></div>
                 </div>
                 <h3 class="fancy-name">Avinash Andhale</h3>
                 <div class="position-tag">
                     <span class="employer">
-                        <img src="assets/icons/Dassault.svg" alt="Dassault Logo" />
+                        <img src="assets/icons/Dassault.svg" alt="Dassault Logo" loading="lazy" />
                     </span>
                 </div>
                 <div class="position-tag">
                     <span class="employer">
-                        <img src="assets/icons/tata.png" alt="TCS Logo" />
+                        <img src="assets/icons/tata.png" alt="TCS Logo" loading="lazy" />
                     </span>
                 </div>
                 <div class="experience-chip">
@@ -63,20 +63,20 @@
 
                 <div class="action-buttons">
                     <a href="/assets/resume.pdf" class="resume-button" download title="Resume">
-                        <img src="assets/icons/PDF_file_icon.svg" alt="Resume" />
+                        <img src="assets/icons/PDF_file_icon.svg" alt="Resume" loading="lazy" />
                     </a>
                     <a href="tel:+918552980643" class="contact-button" title="Phone">
-                        <img src="assets/icons/phone.png" alt="Phone" />
+                        <img src="assets/icons/phone.png" alt="Phone" loading="lazy" />
                     </a>
                     <a href="mailto:aaaviandhale@gmail.com" class="contact-button" title="Email">
-                        <img src="assets/icons/Mail.svg" alt="Email" />
+                        <img src="assets/icons/Mail.svg" alt="Email" loading="lazy" />
                     </a>
                     <a href="https://www.linkedin.com/in/avinash-andhale-22385193/" class="contact-button"
                         target="_blank" title="LinkedIn">
-                        <img src="assets/icons/LinkedIn.png" alt="LinkedIn" />
+                        <img src="assets/icons/LinkedIn.png" alt="LinkedIn" loading="lazy" />
                     </a>
                     <a href="https://github.com/myCodeRepo-A09" class="contact-button" target="_blank" title="GitHub">
-                        <img src="assets/icons/GitHub.png" alt="LinkedIn" />
+                        <img src="assets/icons/GitHub.png" alt="LinkedIn" loading="lazy" />
                     </a>
                 </div>
             </div>
@@ -99,7 +99,7 @@
             @for (blog of this.summary.blogs; track blog._id) {
             <div class="content-card">
                 <div class="card-image">
-                    <img [src]="url+blog.images[0]" [alt]="blog.title">
+                    <img [src]="url+blog.images[0]" [alt]="blog.title" loading="lazy">
                     <div class="card-overlay"></div>
                     <span class="read-time">{{ blog.readTime }}</span>
                 </div>
@@ -186,7 +186,8 @@
             @for (project of this.summary.projects; track project._id) {
             <div class="project-card">
                 <div class="project-header">
-                    <img [src]="project.imagesPath[0]" [alt]="project.title + ' logo'" class="project-logo">
+                    <img [src]="project.imagesPath[0]" [alt]="project.title + ' logo'" class="project-logo"
+                        loading="lazy">
                     <div class="project-meta">
                         <h3>{{ project.title }}</h3>
                         <div class="project-tags">
