@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+
 import { trigger, style, animate, transition } from '@angular/animations';
 import { ContentService } from '../../core/services/content.service';
 @Component({
   selector: 'app-about-me',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   templateUrl: './about-me.component.html',
   styleUrls: ['./about-me.component.scss'],
   animations: [
@@ -24,10 +24,7 @@ import { ContentService } from '../../core/services/content.service';
 export class AboutMeComponent implements OnInit {
   profile: any;
 
-  constructor(
-    private http: HttpClient,
-    private contentService: ContentService
-  ) {}
+  constructor(private contentService: ContentService) {}
 
   ngOnInit(): void {
     this.contentService.getAboutMeInfo().subscribe((data) => {

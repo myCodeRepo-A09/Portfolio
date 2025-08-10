@@ -32,7 +32,7 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
 export class ViewBlogComponent implements OnInit {
   blog: any;
   comments: any[] = [];
-  url: string = 'http://localhost:8080/';
+  url: string = 'http://13.223.184.233/';
   newComment = '';
   canEdit = false;
   isLoggedIn = false;

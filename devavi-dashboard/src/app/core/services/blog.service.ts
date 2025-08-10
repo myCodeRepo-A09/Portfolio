@@ -6,7 +6,7 @@ import { catchError, Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class BlogService {
-  private baseUrl = 'http://localhost:8080/blogs'; // Adjust to your backend URL
+  private baseUrl = '/blogs'; // Adjust to your backend URL
 
   constructor(private http: HttpClient) {}
 
@@ -22,14 +22,12 @@ export class BlogService {
 
   /** Create new blog */
   createBlog(blogData: any): Observable<any> {
-    return this.http
-      .post('http://localhost:8080/blogs/createBlog', blogData)
-      .pipe(
-        catchError((err) => {
-          console.error('Error creating blog:', err);
-          return of(null); // Return null or handle error as needed
-        })
-      );
+    return this.http.post('/blogs/createBlog', blogData).pipe(
+      catchError((err) => {
+        console.error('Error creating blog:', err);
+        return of(null); // Return null or handle error as needed
+      })
+    );
   }
 
   /** Update existing blog */

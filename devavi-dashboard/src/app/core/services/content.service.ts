@@ -10,7 +10,7 @@ export class ContentService {
   private dashboardSummary = new BehaviorSubject<DashboardSummary | null>(null);
   currentDashboardSummary = this.dashboardSummary.asObservable();
   constructor(private http: HttpClient) {}
-  private url = 'http://localhost:8080/dashboard/getDashboardSummary';
+  private url = '/dashboard/getDashboardSummary';
   getDashboardSummary() {
     return this.http.get<DashboardSummary>(this.url).pipe(
       tap((data) => this.dashboardSummary.next(data)),
@@ -32,7 +32,7 @@ export class ContentService {
   }
 
   getAboutMeInfo(): Observable<any> {
-    return this.http.get('http://localhost:8080/dashboard/about-me').pipe(
+    return this.http.get('/dashboard/about-me').pipe(
       catchError((err) => {
         console.error('Error fetching about me info:', err);
         return of(null); // Return null or handle error as needed
@@ -41,27 +41,23 @@ export class ContentService {
   }
 
   createBlog(blogData: any): Observable<any> {
-    return this.http
-      .post('http://localhost:8080/blogs/createBlog', blogData)
-      .pipe(
-        catchError((err) => {
-          console.error('Error creating blog:', err);
-          return of(null); // Return null or handle error as needed
-        })
-      );
+    return this.http.post('/blogs/createBlog', blogData).pipe(
+      catchError((err) => {
+        console.error('Error creating blog:', err);
+        return of(null); // Return null or handle error as needed
+      })
+    );
   }
 
   uploadFiles(files: File[]): Observable<any> {
     const formData = new FormData();
     files.forEach((file) => formData.append('files', file));
-    return this.http
-      .post('http://localhost:8080/dashboard/uploadFiles', formData)
-      .pipe(
-        catchError((err) => {
-          console.error('Error uploading files:', err);
-          return of(null); // Return null or handle error as needed
-        })
-      );
+    return this.http.post('/dashboard/uploadFiles', formData).pipe(
+      catchError((err) => {
+        console.error('Error uploading files:', err);
+        return of(null); // Return null or handle error as needed
+      })
+    );
   }
 
   // Similar methods for news, projects, etc.

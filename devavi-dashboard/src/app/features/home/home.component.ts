@@ -41,6 +41,7 @@ import { environment } from '../../core/environments/environment';
 export class HomeComponent implements OnInit {
   //env
   learnWithMeSection: boolean = environment.learnWithMeSection;
+
   isUserLoggedIn: boolean = false;
   summary: DashboardSummary = {
     blogs: [],
@@ -49,7 +50,7 @@ export class HomeComponent implements OnInit {
     learn: [],
   };
 
-  url: string = 'http://localhost:8080/';
+  url: string = 'http://13.223.184.233/';
   private destroy$ = new Subject<void>();
   constructor(
     private router: Router,

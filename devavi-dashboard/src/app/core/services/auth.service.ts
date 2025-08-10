@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private url: string = 'http://localhost:8080/api/auth'; // Adjust the URL as needed
+  private url: string = '/api/auth'; // Adjust the URL as needed
   private loggedInSubject = new BehaviorSubject<boolean>(false);
   userLoggedIn$ = this.loggedInSubject.asObservable();
   constructor(private http: HttpClient) {
