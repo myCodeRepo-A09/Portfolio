@@ -16,15 +16,19 @@ const path = require("path");
 
 //connect database
 mongoose
-  .connect(process.env.MONGO_URI, {
-    serverApi: {
-      version: "1",
-      strict: true,
-      deprecationErrors: true,
-    },
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    process.env.MONGO_URI ||
+      "mongodb+srv://devavinash0606:Priti25042@portfolio.crmljcw.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Portfolio",
+    {
+      serverApi: {
+        version: "1",
+        strict: true,
+        deprecationErrors: true,
+      },
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => console.log("Dashboard Mongo Connected"))
   .catch((err) => console.error(err));
 

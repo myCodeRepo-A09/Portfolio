@@ -23,7 +23,11 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
 //mongoose connection
 mongoose
-  .connect(process.env.MONGO_URI || config.MONGO_URI)
+  .connect(
+    process.env.MONGO_URI ||
+      config.MONGO_URI ||
+      "mongodb+srv://devavinash0606:Priti25042@portfolio.crmljcw.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Portfolio"
+  )
   .then(() => console.log("Blogs Mongo Connected"))
   .catch((err) => console.error(err));
 
