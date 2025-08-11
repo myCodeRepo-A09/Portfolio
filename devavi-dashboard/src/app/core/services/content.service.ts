@@ -23,7 +23,7 @@ export class ContentService {
   }
 
   getBlogById(id: string): Observable<any> {
-    return this.http.get(`http://localhost:8080/blogs/getBlogById/${id}`).pipe(
+    return this.http.get(`/blogs/getBlogById/${id}`).pipe(
       catchError((err) => {
         console.error('Error fetching blog by ID:', err);
         return of(null); // Return null or handle error as needed
