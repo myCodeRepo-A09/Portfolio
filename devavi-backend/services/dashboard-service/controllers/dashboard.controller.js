@@ -8,7 +8,7 @@ const redis = require("../../../shared/redis/redisClient");
 const profile = require("../utility/profile.json");
 exports.getDashboardSummary = async (req, res) => {
   try {
-    logger.info("getDashboardSummary controller:request received");
+    logger.info(`getDashboardSummary controller:request received ${req.ip}`);
     //await redis.del("dashboardSummary");
     const cached = await redis.get("dashboardSummary");
     if (cached) return res.json(JSON.parse(cached));
