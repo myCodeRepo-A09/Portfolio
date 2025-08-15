@@ -7,7 +7,7 @@ import { BlogService } from '../../../core/services/blog.service';
 import { ContentService } from '../../../core/services/content.service';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { Blog } from '../../../shared/interfaces/blog.model';
-
+import { AuthService } from '../../../core/services/auth.service';
 @Component({
   selector: 'app-create-blog',
   standalone: true,
@@ -22,6 +22,7 @@ export class CreateBlogComponent implements OnInit {
   selectedFiles: File[] = [];
   selectedThumbnail: any = [];
   userName: string = '';
+  userRole: string = '';
   existingAttachments: any[] = [];
   allAttachments: any[] = [];
   attachmentsToRemove: any[] = [];
@@ -45,7 +46,8 @@ export class CreateBlogComponent implements OnInit {
     private router: Router,
     private blogService: BlogService,
     private contentService: ContentService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private authService: AuthService
   ) {
     this.blogForm = this.fb.group({
       title: [''],
@@ -63,6 +65,7 @@ export class CreateBlogComponent implements OnInit {
 
   ngOnInit(): void {
     const userStr = localStorage.getItem('user');
+    this.userRole = this.authService.getCurrentUser().role || 'user';
     this.userName = userStr ? JSON.parse(userStr).name : '';
     this.blogForm.patchValue({ author_id: this.userName });
 
@@ -113,6 +116,16 @@ export class CreateBlogComponent implements OnInit {
     });
   }
 
+  async deleteFiles(files: string[]): Promise<any[]> {
+    return new Promise((resolve) => {
+      if (!files.length) return resolve([]);
+      this.contentService.deleteFiles(files).subscribe({
+        next: (res) => resolve(res.files || []),
+        error: () => resolve([]),
+      });
+    });
+  }
+
   async submitBlog() {
     const blogData = this.blogForm.value;
     blogData.author_id = this.userName;
@@ -145,7 +158,15 @@ export class CreateBlogComponent implements OnInit {
     } else {
       this.blogService.createBlog(blogData).subscribe({
         next: (res) => this.router.navigate(['/blogs', res.data._id]),
-        error: () => this.snackbarService.error('Creation failed'),
+        error: () => {
+          const attachments = [
+            ...this.selectedFiles.map((file) => file.name || ''),
+            //...this.selectedThumbnail.map(thumb => thumb.name ||'')
+          ];
+
+          this.deleteFiles(attachments);
+          this.snackbarService.error('Update failed');
+        },
       });
     }
   }

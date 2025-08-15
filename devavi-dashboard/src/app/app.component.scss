@@ -1,30 +1,89 @@
+// .app-shell {
+//   display: flex;
+//   flex-direction: column;
+//   height: 100vh;
+  
+//    overflow-x: hidden !important; // ✅ hide horizontal scroll
+//   overflow-y: hidden; // keep vertical control in child
+// }
+
+// app-header {
+//   width: 100%;
+//   overflow-x: hidden; // ✅ ensures header never pushes horizontal scroll
+// }
+
+// .content-scroll-area {
+//   margin-top: 64px; // Same height as header
+//   flex: 1;
+//  overflow-y: auto;
+//   overflow-x: hidden !important; // ✅ prevent horizontal scroll
+//   padding: 16px;
+//   box-sizing: border-box; 
+// }
+
+// app-snackbar {
+//   position: fixed;
+//   bottom: 20px;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   z-index: 1001;
+// }
+
+
 .app-shell {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  
-   overflow-x: hidden !important; // ✅ hide horizontal scroll
-  overflow-y: hidden; // keep vertical control in child
+  overflow: hidden; // Prevent extra scrollbars
+
+  app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1002; // Higher than content and floating chat
+    background-color: #fff; // Avoid transparency issues
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  .content-scroll-area {
+    flex: 1;
+    margin-top: var(--header-height, 64px); // Use CSS var for responsive header height
+    height: calc(100vh - var(--header-height, 64px));
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 16px;
+    box-sizing: border-box;
+
+    // Smooth scroll on mobile
+    -webkit-overflow-scrolling: touch;
+  }
+
+  app-floating-chat {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1001;
+  }
+
+  app-snackbar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1003; // On top of everything
+  }
 }
 
-app-header {
-  width: 100%;
-  overflow-x: hidden; // ✅ ensures header never pushes horizontal scroll
+/* Responsive header height */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 56px;
+  }
 }
 
-.content-scroll-area {
-  margin-top: 64px; // Same height as header
-  flex: 1;
- overflow-y: auto;
-  overflow-x: hidden !important; // ✅ prevent horizontal scroll
-  padding: 16px;
-  box-sizing: border-box; 
-}
-
-app-snackbar {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1001;
+@media (min-width: 769px) {
+  :root {
+    --header-height: 64px;
+  }
 }

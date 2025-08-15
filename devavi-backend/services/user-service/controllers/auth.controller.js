@@ -40,7 +40,7 @@ exports.login = async (req, res) => {
     const payload = { id: user._id, email: user.email };
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
-    +res.cookie("accessToken", accessToken, {
+    res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // Use secure in production
       sameSite: "strict", // or 'lax' depending on your needs
@@ -56,7 +56,12 @@ exports.login = async (req, res) => {
     res.status(200).json({
       accessToken: accessToken,
       refreshToken: refreshToken,
-      user: { userId: user._id, email: user.email, name: user.name },
+      user: {
+        userId: user._id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
     });
   } catch (err) {
     return res

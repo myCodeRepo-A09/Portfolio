@@ -95,22 +95,8 @@ export class ChatSocketService {
     });
   }
 
-  getUserMessagesById(
-    userId1: string | undefined,
-    userId2: string
-  ): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.socket.emit(
-        'get-user-messages',
-        { userId1, userId2 },
-        (response: any) => {
-          if (response.error) {
-            reject(response.error);
-          }
-          resolve(response.user);
-        }
-      );
-    });
+  getUserMessagesById(userId1: string | undefined, userId2: string) {
+    this.socket.emit('get-user-messages', { userId1, userId2 });
   }
 
   userMessages(callback: (msg: any) => void) {

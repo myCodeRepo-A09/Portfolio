@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { BlogResolver } from './core/guards/blog.resolver';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -26,7 +27,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'blogs/:id',
+    path: 'viewBlog/:id',
     loadComponent: () =>
       import('../app/features/blogs/view-blog/view-blog.component').then(
         (m) => m.ViewBlogComponent
@@ -80,15 +81,16 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'blogs/create',
+    path: 'createBlog',
     loadComponent: () =>
       import('./features/blogs/create-blog/create-blog.component').then(
         (m) => m.CreateBlogComponent
       ),
+    canActivate: [AuthGuard],
   },
 
   {
-    path: 'blogs/edit/:id',
+    path: 'editBlog/:id',
     loadComponent: () =>
       import('./features/blogs/create-blog/create-blog.component').then(
         (m) => m.CreateBlogComponent

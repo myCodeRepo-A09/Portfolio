@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { SnackbarComponent } from './shared/components/snackbar/snackbar.component';
 import { FloatingChatComponent } from './shared/components/floating-chat/floating-chat.component';
 import { CommonModule } from '@angular/common';
+import { LoaderComponent } from './shared/components/loader/loader.component';
+import { AuthService } from './core/services/auth.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -16,15 +18,12 @@ import { CommonModule } from '@angular/common';
     RouterModule,
     SnackbarComponent,
     FloatingChatComponent,
+    LoaderComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'], // ✅ fixed this line
 })
 export class AppComponent {
   title = 'devavi-dashboard';
-  showChatPopup = false;
-
-  toggleChat() {
-    this.showChatPopup = !this.showChatPopup;
-  }
+  constructor(public authService: AuthService) {}
 }

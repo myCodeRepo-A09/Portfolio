@@ -100,8 +100,8 @@
         <button (click)="likeBlog()" [ngClass]="{ 'liked': blog.likes?.user?.includes(userName) }">
             ❤️ {{ blog.likes?.count || 0 }} Likes
         </button>
-        <button *ngIf="canEdit" (click)="editBlog()">✏️ Edit</button>
-        <button *ngIf="canEdit" (click)="deleteBlog()">🗑️ Delete</button>
+        <button *ngIf="canEdit || userRole=='admin'" (click)="editBlog()">✏️ Edit</button>
+        <button *ngIf="canEdit || userRole=='admin'" (click)="deleteBlog()">🗑️ Delete</button>
     </div>
 
     <div class="comments-section">

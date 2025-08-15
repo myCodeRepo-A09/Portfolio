@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 import { DashboardSummary } from '../../shared/interfaces/dashboard.summary.model';
+import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
@@ -10,20 +11,23 @@ export class ContentService {
   private dashboardSummary = new BehaviorSubject<DashboardSummary | null>(null);
   currentDashboardSummary = this.dashboardSummary.asObservable();
   constructor(private http: HttpClient) {}
-  private url = '/dashboard/getDashboardSummary';
+
+  private url: string = environment.url;
   getDashboardSummary() {
-    return this.http.get<DashboardSummary>(this.url).pipe(
-      tap((data) => this.dashboardSummary.next(data)),
-      catchError((err) => {
-        console.error('Error fetching dashboard summary:', err);
-        this.dashboardSummary.next(null);
-        return of(null); // Ensure observable completes even on error
-      })
-    );
+    return this.http
+      .get<DashboardSummary>(`${this.url}` + '/dashboard/getDashboardSummary')
+      .pipe(
+        tap((data) => this.dashboardSummary.next(data)),
+        catchError((err) => {
+          console.error('Error fetching dashboard summary:', err);
+          this.dashboardSummary.next(null);
+          return of(null); // Ensure observable completes even on error
+        })
+      );
   }
 
   getBlogById(id: string): Observable<any> {
-    return this.http.get(`/blogs/getBlogById/${id}`).pipe(
+    return this.http.get(`${this.url}` + `/blogs/getBlogById/${id}`).pipe(
       catchError((err) => {
         console.error('Error fetching blog by ID:', err);
         return of(null); // Return null or handle error as needed
@@ -32,7 +36,7 @@ export class ContentService {
   }
 
   getAboutMeInfo(): Observable<any> {
-    return this.http.get('/dashboard/about-me').pipe(
+    return this.http.get(`${this.url}` + '/dashboard/about-me').pipe(
       catchError((err) => {
         console.error('Error fetching about me info:', err);
         return of(null); // Return null or handle error as needed
@@ -41,7 +45,7 @@ export class ContentService {
   }
 
   createBlog(blogData: any): Observable<any> {
-    return this.http.post('/blogs/createBlog', blogData).pipe(
+    return this.http.post(`${this.url}` + '/createBlog', blogData).pipe(
       catchError((err) => {
         console.error('Error creating blog:', err);
         return of(null); // Return null or handle error as needed
@@ -52,12 +56,20 @@ export class ContentService {
   uploadFiles(files: File[]): Observable<any> {
     const formData = new FormData();
     files.forEach((file) => formData.append('files', file));
-    return this.http.post('/dashboard/uploadFiles', formData).pipe(
-      catchError((err) => {
-        console.error('Error uploading files:', err);
-        return of(null); // Return null or handle error as needed
-      })
-    );
+    return this.http
+      .post(`${this.url}` + '/dashboard/uploadFiles', formData)
+      .pipe(
+        catchError((err) => {
+          console.error('Error uploading files:', err);
+          return of(null); // Return null or handle error as needed
+        })
+      );
+  }
+
+  deleteFiles(filenames: string[]): Observable<any> {
+    return this.http.post(`${this.url}` + `/dashboard/deleteFiles`, {
+      filenames,
+    });
   }
 
   // Similar methods for news, projects, etc.

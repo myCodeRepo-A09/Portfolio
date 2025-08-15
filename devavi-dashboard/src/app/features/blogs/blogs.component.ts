@@ -25,6 +25,7 @@ import { Blog } from '../../shared/interfaces/blog.model';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { BlogService } from '../../core/services/blog.service';
 import { MatChipsModule } from '@angular/material/chips';
+import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-blogs',
   standalone: true,
@@ -65,8 +66,12 @@ export class BlogsComponent implements OnInit {
     'published',
     'actions',
   ];
-
-  constructor(private blogService: BlogService) {
+  currentUserId: string = '';
+  userRole: string = '';
+  constructor(
+    private blogService: BlogService,
+    private authService: AuthService
+  ) {
     effect(() => {
       const filtered = this.getFilteredSortedBlogs();
       this.totalPages.set(Math.ceil(filtered.length / this.pageSize));
@@ -75,6 +80,8 @@ export class BlogsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadBlogs();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.userRole = this.authService.getCurrentUser().role || 'user';
   }
 
   loadBlogs() {

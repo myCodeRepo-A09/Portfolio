@@ -1,11 +1,14 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+
 import { SearchService } from '../../core/services/search.service';
+import { AuthService } from '../../core/services/auth.service';
 import { SearchComponent } from '../search/search.component';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
-import { AuthService } from '../../core/services/auth.service';
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -19,19 +22,21 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
-  isUserLoggedIn: boolean = false;
+export class HeaderComponent implements OnInit, OnDestroy {
+  isUserLoggedIn = false;
   dropdownOpen = false;
   isMenuOpen = false;
   isScrolled = false;
   searchQuery = '';
-  menuItems = [
+
+  private subs: Subscription[] = [];
+
+  // <-- typed menuItems with optional `exact` property
+  menuItems: { path: string; label: string; exact?: boolean }[] = [
+    { path: '/', label: 'Dashboard', exact: true }, // root route needs exact
     { path: '/about', label: 'About DevAvi' },
     { path: '/blogs', label: 'Blogs' },
-    { path: '/news', label: 'News' },
-    { path: '/projects', label: 'Projects' },
-    { path: '/learn', label: 'Learn With Me' },
-    { path: '/login', label: 'Sign In' },
+    { path: 'createBlog', label: 'Create Blog' },
   ];
 
   constructor(
@@ -45,37 +50,46 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchService.currentSearch.subscribe((query) => {
-      this.searchQuery = query;
-    });
+    this.subs.push(
+      this.searchService.currentSearch.subscribe((q) => {
+        this.searchQuery = q || '';
+      })
+    );
 
-    this.authService.userLoggedIn$.subscribe((isLoggedIn) => {
-      this.isUserLoggedIn = isLoggedIn;
-    });
-  }
-  toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen;
-  }
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-    //document.getElementsByClassName('main-nav')[0].style.display = 'none';
+    this.subs.push(
+      this.authService.userLoggedIn$.subscribe((loggedIn) => {
+        this.isUserLoggedIn = !!loggedIn;
+      })
+    );
   }
 
   performSearch() {
     this.searchService.changeSearch(this.searchQuery);
   }
 
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    document.body.style.overflow = this.isMenuOpen ? 'hidden' : '';
+  }
+
   closeMenu() {
     this.isMenuOpen = false;
-    //document.body.style.overflow = '';
+    document.body.style.overflow = '';
   }
+
   logout() {
     this.dropdownOpen = false;
     this.authService.logout();
-    this.authService.setLoggedIn(false);
     this.isUserLoggedIn = false;
     this.closeMenu();
-    // Optionally redirect to home or login page
-    // this.router.navigate(['/']);
+  }
+
+  ngOnDestroy() {
+    this.subs.forEach((s) => s.unsubscribe());
+    document.body.style.overflow = '';
   }
 }

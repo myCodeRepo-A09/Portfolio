@@ -111,7 +111,7 @@
                     </div>
                     <h3>{{ blog.title }}</h3>
                     <p class="excerpt">{{ blog.excerpt }}</p>
-                    <button [routerLink]="['/blogs', blog._id]" class="card-button">
+                    <button (click)="openBlog(blog._id)" class="card-button">
                         Read Article
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"
@@ -186,7 +186,7 @@
             @for (project of this.summary.projects; track project._id) {
             <div class="project-card">
                 <div class="project-header">
-                    <img [src]="project.imagesPath[0]" [alt]="project.title + ' logo'" class="project-logo"
+                    <img [src]="url+project.imagesPath[0]" [alt]="project.title + ' logo'" class="project-logo"
                         loading="lazy">
                     <div class="project-meta">
                         <h3>{{ project.title }}</h3>
@@ -199,7 +199,7 @@
                 </div>
                 <p class="project-description">{{ project.content }}</p>
                 <div class="project-links">
-                    <a [href]="project.demoVideoPath" target="_blank" class="demo-button">
+                    <a [href]="url+project.demoVideoPath" target="_blank" class="demo-button">
                         Live Demo
                     </a>
                     <a [href]="project.githubLink" target="_blank" class="code-button">

@@ -78,7 +78,9 @@ export class FloatingChatComponent implements OnInit {
         unreadCount: 0, // Initialize unread count
       }));
       this.filteredUsers = [...this.allUsers];
-      this.activeUser = this.allUsers[0] || {
+      this.activeUser = this.filteredUsers.find(
+        (u) => u._id === this.currentUserId
+      ) || {
         name: 'Admin',
         online: true,
         unreadCount: 0,
@@ -89,10 +91,11 @@ export class FloatingChatComponent implements OnInit {
       });
 
       this.loadMoreMessages();
-      this.scrollToBottom();
+      // this.scrollToBottom();
     });
     this.chatSocket.onMessageReceived((msg) => {
-      if (msg.sender === this.activeUser._id && this.showChatPopup) {
+      if (msg.sender === this.currentUserId) {
+      } else if (msg.sender === this.activeUser._id && this.showChatPopup) {
         // User is actively chatting with this person
         this.messages.push(msg);
       } else {
@@ -217,18 +220,17 @@ export class FloatingChatComponent implements OnInit {
   }
 
   loadMoreMessages() {
-    this.chatSocket
-      .getUserMessagesById(this.activeUser._id, this.currentUserId)
-      .then((user: any) => {
-        this.messages = (user.messages || []).sort(
-          (a: Message, b: Message) =>
-            new Date(a.createdAt!).getTime() - new Date(b.createdAt!).getTime()
-        );
-        this.scrollToBottom();
-      })
-      .catch((error: any) => {
-        console.error('Error loading messages:', error);
-      });
+    this.chatSocket.getUserMessagesById(
+      this.activeUser._id,
+      this.currentUserId
+    );
+    this.chatSocket.userMessages((message) => {
+      this.messages = (message || []).sort(
+        (a: Message, b: Message) =>
+          new Date(a.createdAt!).getTime() - new Date(b.createdAt!).getTime()
+      );
+      this.scrollToBottom();
+    });
   }
 
   scrollToBottom() {

@@ -10,11 +10,11 @@ type Theme = 'light' | 'dark' | 'professional' | 'creative' | 'terminal';
 export class ThemeService {
   private _currentTheme = signal<Theme>(this.getSystemPreference());
   private _themes: Theme[] = [
+    'terminal',
+    'creative',
     'light',
     'dark',
     'professional',
-    'creative',
-    'terminal',
   ];
 
   currentTheme = this._currentTheme.asReadonly();
@@ -28,8 +28,8 @@ export class ThemeService {
   }
 
   private getSystemPreference(): Theme {
-    return window.matchMedia('(prefers-color-scheme: creative)').matches
-      ? 'creative'
+    return window.matchMedia('(prefers-color-scheme: terminal)').matches
+      ? 'terminal'
       : 'light';
   }
 

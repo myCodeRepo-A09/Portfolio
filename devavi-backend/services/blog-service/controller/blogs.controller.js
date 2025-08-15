@@ -180,9 +180,13 @@ exports.deleteBlog = async function (req, res) {
         .status(404)
         .json({ success: false, message: "Blog not found" });
     }
+
+    //clear dashboard summary data
     if (await redis.get("dashboardSummary")) {
       await redis.del("dashboardSummary");
     }
+
+    //send response to client 
     res
       .status(200)
       .json({ success: true, message: "Blog deleted successfully" });
@@ -193,13 +197,18 @@ exports.deleteBlog = async function (req, res) {
       .json({ success: false, message: "Failed to delete blog", error });
   }
 };
+
+
 exports.likeBlog = async function (req, res) {
   try {
+
+    //validate blog ID
     const blog = await blogModel.findById(req.params.id);
 
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
+
 
     const userId = req.body.user || "default-user"; // Replace with actual auth extraction
 
@@ -209,8 +218,10 @@ exports.likeBlog = async function (req, res) {
       blog.likes.count += 1;
     }
 
+    //save like
     await blog.save();
 
+    //clear dashboard summary
     if (await redis.get("dashboardSummary")) {
       await redis.del("dashboardSummary");
     }
@@ -225,24 +236,30 @@ exports.commentBlog = async function (req, res) {
   try {
     const { user, comment } = req.body;
     console.log(user, comment);
-
+    
+    //check if user and comment is available from user
     if (!user || !comment) {
       return res.status(400).json({ message: "User and comment are required" });
     }
 
+    //find by Id
     const blog = await blogModel.findById(req.params.id);
 
+    //If blog is not found
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
 
+    //add comment to blog
     blog.comments.push({
       user,
       text: comment,
     });
 
+    //save blog
     await blog.save();
 
+    //clear dashboard summary
     if (await redis.get("dashboardSummary")) {
       await redis.del("dashboardSummary");
     }

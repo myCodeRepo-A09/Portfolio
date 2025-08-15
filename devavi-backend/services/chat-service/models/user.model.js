@@ -68,6 +68,7 @@ const userSchema = new mongoose.Schema(
     online: { type: Boolean, default: false },
     lastSeen: { type: Date },
     socketId: { type: String },
+    unreadCount: { type: Number, default: 0 },
     reset_password_token: { type: String },
     reset_password_expires: { type: Date },
   },

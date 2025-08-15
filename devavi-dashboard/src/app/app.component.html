@@ -7,7 +7,7 @@
 
 
   <!-- Floating Chat Popup -->
-  <app-floating-chat></app-floating-chat>
-
+  <app-floating-chat *ngIf="this.authService.isAuthenticated()"></app-floating-chat>
+  <app-loader></app-loader>
   <app-snackbar></app-snackbar>
 </div>

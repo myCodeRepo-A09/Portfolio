@@ -1,7 +1,9 @@
 <!-- Circular Chat Toggle Button -->
-<button *ngIf="!showChatPopup" class="chat-toggle-btn" (click)="toggleChat()">
-    💬<span *ngIf="showMessageFlag" class="badge">++</span>
+<button *ngIf="!showChatPopup" class="chat-toggle-btn" [ngClass]="{ 'highlighted': showMessageFlag }"
+    (click)="toggleChat()">
+    💬
 </button>
+
 
 <div *ngIf="showChatPopup" class="floating-chat">
 
@@ -75,10 +77,10 @@
                 <textarea [(ngModel)]="messageText" placeholder="Type a message..." (keydown.enter)="onEnter($event)"
                     rows="1"></textarea>
 
-                <div class="file-input-wrapper">
+                <!-- <div class="file-input-wrapper">
                     <input type="file" (change)="handleFileChange($event)" multiple />
                     <label class="file-input-label">📎</label>
-                </div>
+                </div> -->
 
                 <button (click)="sendMessage()">Send</button>
             </div>

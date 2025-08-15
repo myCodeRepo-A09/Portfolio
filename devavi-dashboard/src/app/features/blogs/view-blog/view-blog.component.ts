@@ -4,13 +4,13 @@ import { BlogService } from '../../../core/services/blog.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContentService } from '../../../core/services/content.service';
-import { takeUntil } from 'rxjs/internal/operators/takeUntil';
-import { Subject } from 'rxjs/internal/Subject';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AuthService } from '../../../core/services/auth.service';
 import { SnackbarService } from '../../../core/services/snackbar.service';
-
+import { environment } from '../../../core/environments/environment';
 @Component({
   selector: 'app-view-blog',
   standalone: true,
@@ -32,11 +32,12 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
 export class ViewBlogComponent implements OnInit {
   blog: any;
   comments: any[] = [];
-  url: string = 'http://13.223.184.233/';
+  url: string = environment.url + '/';
   newComment = '';
   canEdit = false;
   isLoggedIn = false;
   userName: string = '';
+  userRole: any = '';
   public destroy$ = new Subject<void>();
 
   constructor(
@@ -53,6 +54,7 @@ export class ViewBlogComponent implements OnInit {
     const blogId = this.route.snapshot.paramMap.get('id');
 
     this.userName = this.authService.getCurrentUser().name;
+    this.userRole = this.authService.getCurrentUser().role || 'user';
     this.contentService.getBlogById(blogId as string).subscribe((blog) => {
       if (blog && blog.data) {
         this.blog = blog.data;
@@ -98,7 +100,7 @@ export class ViewBlogComponent implements OnInit {
   }
 
   editBlog() {
-    this.router.navigate(['/blogs/edit', this.blog._id]);
+    this.router.navigate(['/editBlog', this.blog._id]);
   }
 
   deleteBlog() {

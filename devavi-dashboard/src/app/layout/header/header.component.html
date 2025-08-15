@@ -1,68 +1,49 @@
-<header class="header" [class.scrolled]="isScrolled">
+<header class="header" [class.scrolled]="isScrolled" role="banner">
     <div class="container">
         <!-- Logo -->
-        <a routerLink="/" class="logo" (click)="closeMenu()">
-            <span class="logo-dev">Dev</span>
-            <span class="logo-avi">Avi</span>
-            <span class="logo-com">.com</span>
+        <a routerLink="/" class="logo" (click)="closeMenu()" aria-label="DevAvi home">
+            <span class="logo-dev">Dev</span><span class="logo-avi">Avi</span><span class="logo-com">.com</span>
         </a>
 
-        <!-- Global Search Bar -->
+        <!-- Search (hidden on small screens by CSS) -->
         <div class="search-container">
-            <app-search></app-search>
+            <app-search (search)="performSearch()"></app-search>
         </div>
 
-        <!-- Collapsible Menu Button -->
+        <!-- Hamburger (mobile) -->
         <button class="menu-toggle" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen"
-            aria-label="Toggle navigation">
+            aria-label="Toggle navigation" type="button">
             <span class="hamburger" [class.active]="isMenuOpen"></span>
         </button>
 
-        <!-- Navigation Menu -->
-        <nav class="main-nav" [class.active]="isMenuOpen">
-            <ul class="nav-list" [class.active]="isMenuOpen">
-                <li class="nav-item" [class.active]="isMenuOpen">
+        <!-- Backdrop -->
+        <div class="nav-backdrop" [class.active]="isMenuOpen" (click)="closeMenu()" [attr.aria-hidden]="!isMenuOpen">
+        </div>
 
-                    <a routerLink="/" class="nav-link" (click)="closeMenu()">
-                        Dashboard
-                    </a>
+        <!-- Off-canvas / Desktop nav -->
+        <nav class="main-nav" [class.active]="isMenuOpen" role="navigation" aria-label="Main Navigation">
+            <ul class="nav-list">
+                <li class="nav-item" *ngFor="let item of menuItems" (click)="closeMenu()">
+                    <a class="nav-link" [routerLink]="item.path" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: item.exact || false }">{{ item.label }}</a>
+                </li>
 
-                    <a routerLink="/about" class="nav-link" (click)="closeMenu()">
-                        About Dev-Avi
-                    </a>
-                    <a routerLink="/blogs" class="nav-link" (click)="closeMenu()">
-                        Blogs
-                    </a>
-                    <!--                     
-                    <a routerLink="/projects" class="nav-link" (click)="closeMenu()">
-                        Projects
-                    </a>
-                    <a routerLink="/news" class="nav-link" (click)="closeMenu()">
-                        News
-                    </a>
-                    <a routerLink="/learn" class="nav-link" (click)="closeMenu()">
-                        Learn With Me
-                    </a> -->
+                <li class="nav-item" *ngIf="!isUserLoggedIn" (click)="closeMenu()">
+                    <a routerLink="/login" class="nav-link">Sign In</a>
+                </li>
 
-                    <a *ngIf='!isUserLoggedIn' routerLink="/login" class="nav-link" (click)="closeMenu()">
-                        Login
-                    </a>
-                    <a *ngIf='isUserLoggedIn' class="nav-link user-profile" (click)="logout()">
-                        <span class="material-icons">account_circle</span>
+                <li class="nav-item user-item" *ngIf="isUserLoggedIn">
+                    <button class="nav-link user-profile" (click)="logout()" type="button" aria-label="Logout">
+                        <span class="material-icons" aria-hidden="true">account_circle</span>
                         <span class="logout-text">Logout</span>
-                    </a>
-
-
+                    </button>
                 </li>
             </ul>
         </nav>
 
+        <!-- header actions -->
         <div class="header-actions">
             <app-theme-toggle></app-theme-toggle>
-            <!-- <button class="cta-button" magneticButton>
-                Hire Me
-                <svg></svg>
-            </button> -->
         </div>
     </div>
 </header>

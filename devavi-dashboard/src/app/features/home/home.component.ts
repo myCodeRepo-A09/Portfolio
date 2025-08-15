@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
     learn: [],
   };
 
-  url: string = 'http://13.223.184.233/';
+  url: string = environment.url + '/';
   private destroy$ = new Subject<void>();
   constructor(
     private router: Router,
@@ -87,12 +87,11 @@ export class HomeComponent implements OnInit {
   navigateTo(route: string) {
     this.router.navigate([route]);
   }
-
+  openBlog(id: any) {
+    this.router.navigate(['/viewBlog', id]);
+  }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-}
-function next(value: any[]): void {
-  throw new Error('Function not implemented.');
 }
