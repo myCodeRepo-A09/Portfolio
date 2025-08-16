@@ -203,3 +203,9 @@ body {
   //color: var(--text-primary);
   transition: background-color 0.5s ease, color 0.3s ease;
 }
+
+/* Default header height + responsive override */
+:root { --header-height: 64px; }
+@media (max-width: 768px) {
+  :root { --header-height: 56px; }
+}

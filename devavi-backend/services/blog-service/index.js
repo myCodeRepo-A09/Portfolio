@@ -5,7 +5,7 @@ const helmet = require("helmet");
 const blogsRoute = require("../blog-service/routes/blogRoutes");
 require("dotenv").config();
 const path = require("path");
-const config = require("../blog-service/config/config");
+const { config } = require("../blog-service/config/config");
 const mongoose = require("mongoose");
 const { errorMiddleware } = require("../../shared/middleware/error.middleware");
 
@@ -23,11 +23,7 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
 //mongoose connection
 mongoose
-  .connect(
-    process.env.MONGO_URI ||
-      config.MONGO_URI ||
-      "mongodb+srv://devavinash0606:Priti25042@portfolio.crmljcw.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Portfolio"
-  )
+  .connect(process.env.MONGO_URI || config.MONGO_URI)
   .then(() => console.log("Blogs Mongo Connected"))
   .catch((err) => console.error(err));
 

@@ -4,7 +4,7 @@ const User = require("../models/user.model");
 const connectedUsers = new Map(); // userId => socket.id
 
 module.exports = function (socket, io) {
-  console.log("🔌 New client connected");
+  console.log(" New client connected");
 
   // Store user on connection
   socket.on("register-user", async (userId) => {
@@ -94,7 +94,7 @@ module.exports = function (socket, io) {
       });
       io.emit("user-status-update", { userId, online: false });
     }
-    console.log("🔌 Client disconnected");
+    console.log("Client disconnected");
   });
 
   socket.on("mark-as-read", async ({ senderId, receiverId }) => {
