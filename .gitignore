@@ -41,18 +41,18 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-#ecosystem.config.js
+ecosystem.config.js
 # System files
 .DS_Store
 Thumbs.db
 
 #COMMENT WHILE PUSHING TO SERVER
-#/devavi-backend/services/blog-service/config/config.js
-#/devavi-backend/services/blog-service/.env
-#/devavi-backend/services/chat-service/config/config.js
-#/devavi-backend/services/chat-service/.env
-#/devavi-backend/services/dashboard-service/config/config.js
-#/devavi-backend/services/dashboard-service/.env
-#/devavi-backend/services/user-service/config/config.js
-#/devavi-backend/services/user-service/.env
-#/devavi-backend/shared/config/config.js
+/devavi-backend/services/blog-service/config/config.js
+/devavi-backend/services/blog-service/.env
+/devavi-backend/services/chat-service/config/config.js
+/devavi-backend/services/chat-service/.env
+/devavi-backend/services/dashboard-service/config/config.js
+/devavi-backend/services/dashboard-service/.env
+/devavi-backend/services/user-service/config/config.js
+/devavi-backend/services/user-service/.env
+/devavi-backend/shared/config/config.js
