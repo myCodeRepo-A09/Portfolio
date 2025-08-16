@@ -4,6 +4,6 @@ export const environment = {
   //chatSocketUrl: 'http://localhost:4000',
   chatAttachments: false,
   learnWithMeSection: false,
-  url: 'https//13.223.184.233',
+  url: 'https://13.223.184.233',
   //url: 'http://localhost:8080',
 };
