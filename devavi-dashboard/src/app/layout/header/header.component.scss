@@ -229,7 +229,7 @@ $accent: #2bd1ff;
   /* Mobile responsive styles (preserve your existing mobile rules) */
   @media (max-width: 900px) {
     .search-container { display: none; }
-    .header-actions { display: none; }
+    //.header-actions { display: none; }
     .menu-toggle { display: block; }
 
     .main-nav {

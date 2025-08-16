@@ -10,7 +10,8 @@ module.exports = {
       env: {
         NODE_ENV: "development",
         PORT: 3001,
-        MONGO_URI: "mongodb://localhost:27017/dashboard-db",
+        MONGO_URI:
+          "mongodb+srv://devavinash0606:Priti25042@portfolio.crmljcw.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Portfolio",
         REDIS_HOST: "127.0.0.1",
         REDIS_PORT: 6379,
       },
@@ -38,7 +39,8 @@ module.exports = {
       env: {
         NODE_ENV: "development",
         PORT: 3004,
-        MONGO_URI: "mongodb://localhost:27017/dashboard-db",
+        MONGO_URI:
+          "mongodb+srv://devavinash0606:Priti25042@portfolio.crmljcw.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Portfolio",
         REDIS_HOST: "127.0.0.1",
         REDIS_PORT: 6379,
       },
@@ -64,7 +66,8 @@ module.exports = {
       env: {
         NODE_ENV: "development",
         PORT: 3002,
-        MONGO_URI: "mongodb://localhost:27017/user-db",
+        MONGO_URI:
+          "mongodb+srv://devavinash0606:Priti25042@portfolio.crmljcw.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Portfolio",
       },
       env_production: {
         NODE_ENV: "production",
@@ -89,7 +92,8 @@ module.exports = {
       env: {
         NODE_ENV: "development",
         PORT: 4000,
-        MONGO_URI: "mongodb://localhost:27017/chat-db",
+        MONGO_URI:
+          "mongodb+srv://devavinash0606:Priti25042@portfolio.crmljcw.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Portfolio",
       },
       env_production: {
         NODE_ENV: "production",
