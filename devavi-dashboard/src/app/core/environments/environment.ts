@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  chatSocketUrl: 'https://devavi.tech:4000',
+  chatSocketUrl: 'https://devavi.tech',
   //chatSocketUrl: 'http://localhost:4000',
   chatAttachments: false,
   learnWithMeSection: false,
