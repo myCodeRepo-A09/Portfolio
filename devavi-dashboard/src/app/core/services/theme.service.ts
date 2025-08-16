@@ -28,9 +28,9 @@ export class ThemeService {
   }
 
   private getSystemPreference(): Theme {
-    return window.matchMedia('(prefers-color-scheme: terminal)').matches
-      ? 'terminal'
-      : 'light';
+    return window.matchMedia('(prefers-color-scheme: light)').matches
+      ? 'light'
+      : 'terminal';
   }
 
   private applyTheme(theme: Theme) {
